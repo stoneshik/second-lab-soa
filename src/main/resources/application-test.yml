@@ -1,5 +1,5 @@
 server:
-  port: "${IS_SERVICE_PORT}"
+  port: "${SOA_SERVICE_PORT}"
 
 spring:
   main:
