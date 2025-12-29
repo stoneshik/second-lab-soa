@@ -615,4 +615,3 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             );
     }
 }
-
