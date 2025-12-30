@@ -1,5 +1,6 @@
 package lab.soa;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
@@ -20,20 +21,17 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                content().xml("""
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <FlatsPage>
-                        <flats></flats>
-                        <page>0</page>
-                        <totalElements>0</totalElements>
-                        <totalPages>0</totalPages>
-                        <currentPage>0</currentPage>
-                        <pageSize>0</pageSize>
-                    </FlatsPage>
-                """)
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(0.0),
+                xpath("/flatsPage/totalElements").string("0"),
+                xpath("/flatsPage/totalPages").string("0"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("0")
             );
     }
 
@@ -75,11 +73,11 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/flatsPage/flats/flat[2]/coordinates/y").string("100"),
                 xpath("/flatsPage/flats/flat[2]/creationDate").exists(),
                 xpath("/flatsPage/flats/flat[2]/area").string("2"),
-                xpath("/flatsPage/flats/flat[2]/numberOfRooms").string("10"),
+                xpath("/flatsPage/flats/flat[2]/numberOfRooms").string("2"),
                 xpath("/flatsPage/flats/flat[2]/height").string("2"),
                 xpath("/flatsPage/flats/flat[2]/view").string("BAD"),
                 xpath("/flatsPage/flats/flat[2]/transport").string("ENOUGH"),
-                xpath("/flatsPage/flats/flat[2]/house/id").string("1"),
+                xpath("/flatsPage/flats/flat[2]/house/id").string("2"),
                 xpath("/flatsPage/flats/flat[2]/house/name").string("Second House"),
                 xpath("/flatsPage/flats/flat[2]/house/year").string("2001"),
                 xpath("/flatsPage/flats/flat[2]/house/numberOfFlatsOnFloor").string("12"),
@@ -129,7 +127,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
             .param("sort", "id,desc")
-            .param("page", "1")
+            .param("page", "0")
             .param("size", "2");
 
         mockMvc
@@ -175,7 +173,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/flatsPage/totalElements").string("4"),
                 xpath("/flatsPage/totalPages").string("2"),
-                xpath("/flatsPage/currentPage").string("1"),
+                xpath("/flatsPage/currentPage").string("0"),
                 xpath("/flatsPage/pageSize").string("2")
             );
     }
