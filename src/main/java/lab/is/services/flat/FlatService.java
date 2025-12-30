@@ -58,9 +58,9 @@ public class FlatService {
     }
 
     @Transactional(readOnly = true)
-    public FlatResponseDto findById(Long id) {
+    public FlatResponseByIdDto findById(Long id) {
         Flat flat = flatTxService.findByIdReturnsEntity(id);
-        return FlatToDtoFromEntityMapper.toDtoFromEntity(flat);
+        return FlatToDtoFromEntityMapper.toByIdDtoFromEntity(flat);
     }
 
     @Transactional

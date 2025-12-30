@@ -24,22 +24,23 @@ import lab.is.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(
-    value = "/api/v1/flats",
-    consumes = MediaType.APPLICATION_XML_VALUE,
-    produces = MediaType.APPLICATION_XML_VALUE
-)
+@RequestMapping(value = "/api/v1/flats")
 @RequiredArgsConstructor
 public class FlatController {
     private final FlatService flatService;
 
-    @PostMapping
+    @PostMapping(
+        consumes = MediaType.APPLICATION_XML_VALUE,
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
     public ResponseEntity<FlatResponseByIdDto> create(@RequestBody FlatRequestCreateDto requestDto) {
         FlatResponseByIdDto responseDto = flatService.create(requestDto);
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping
+    @GetMapping(
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
     public ResponseEntity<WrapperListFlatsResponseDto> getAll(
         @RequestParam(required = false) String filter,
         @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
@@ -66,13 +67,20 @@ public class FlatController {
         return ResponseEntity.noContent().build();
     }*/
 
-    @GetMapping("/{id}")
-    public ResponseEntity<FlatResponseDto> getById(@PathVariable Long id) {
-        FlatResponseDto dto = flatService.findById(id);
+    @GetMapping(
+        value = "/{id}",
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
+    public ResponseEntity<FlatResponseByIdDto> getById(@PathVariable Long id) {
+        FlatResponseByIdDto dto = flatService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(
+        value = "/{id}",
+        consumes = MediaType.APPLICATION_XML_VALUE,
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
     public ResponseEntity<FlatResponseByIdDto> update(
         @PathVariable Long id,
         @RequestBody FlatRequestUpdateDto requestDto

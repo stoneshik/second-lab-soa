@@ -166,7 +166,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
-                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -176,7 +175,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <id>1</id>
                 <name>Updated House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
@@ -184,7 +182,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/api/v1/flats/{id}", id)
+            .put("/api/v1/flats/{id}", id)
             .contentType(MediaType.APPLICATION_XML)
             .content(xmlRequest);
 
@@ -219,7 +217,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
-                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -229,7 +226,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <id>1</id>
                 <name>First House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
@@ -237,7 +233,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/api/v1/flats/{id}", id)
+            .put("/api/v1/flats/{id}", id)
             .contentType(MediaType.APPLICATION_XML)
             .content(xmlRequest);
 
@@ -263,7 +259,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
-                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -273,7 +268,6 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <id>1</id>
                 <name>First House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
@@ -281,7 +275,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/api/v1/flats/{id}", id)
+            .put("/api/v1/flats/{id}", id)
             .contentType(MediaType.APPLICATION_XML)
             .content(xmlRequest);
 
@@ -292,7 +286,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 status().isNotFound(),
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
-                xpath("/error/messages/message").exists(),
+                xpath("/error/message").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -306,6 +300,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNoContent()
             );
@@ -336,6 +331,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNoContent()
             );
@@ -351,6 +347,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNoContent()
             );
@@ -366,6 +363,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNoContent()
             );
@@ -385,6 +383,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNoContent()
             );
