@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lab.soa.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.dto.requests.flat.FlatRequestUpdateDto;
-import lab.soa.dto.responses.ResponseLongValueDto;
+import lab.soa.dto.responses.LongValueResponseDto;
+import lab.soa.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.services.flat.FlatService;
@@ -99,8 +100,17 @@ public class FlatController {
         value = "/sum/height",
         produces = MediaType.APPLICATION_XML_VALUE
     )
-    public ResponseEntity<ResponseLongValueDto> getAmountOfHeights() {
-        ResponseLongValueDto dto = flatService.getAmountOfHeights();
+    public ResponseEntity<LongValueResponseDto> getAmountOfHeights() {
+        LongValueResponseDto dto = flatService.getAmountOfHeights();
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(
+        value = "/group-by/height",
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
+    public ResponseEntity<FlatGroupsByHeightResponseDto> getGroupsByHeight() {
+        FlatGroupsByHeightResponseDto dto = flatService.getGroupsByHeight();
         return ResponseEntity.ok(dto);
     }
 }

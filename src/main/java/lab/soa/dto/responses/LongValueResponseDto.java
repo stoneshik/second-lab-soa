@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @JacksonXmlRootElement(localName = "response")
-public class ResponseLongValueDto {
+public class LongValueResponseDto {
     @JacksonXmlProperty(localName = "value")
     private Long value;
 }

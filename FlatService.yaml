@@ -586,12 +586,17 @@ paths:
               schema:
                 type: object
                 xml:
-                  name: groups
+                  name: groupsWrapper
                 properties:
-                  group:
+                  groups:
                     type: array
+                    xml:
+                      wrapped: true
+                      name: groups
                     items:
                       type: object
+                      xml:
+                        name: group
                       properties:
                         height:
                           type: integer

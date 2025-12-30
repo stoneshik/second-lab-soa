@@ -440,7 +440,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/response").exists(),
-                xpath("/response").string("19")
+                xpath("/response").string("18")
             );
     }
 
@@ -473,10 +473,39 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/groups").exists(),
-                xpath("/groups/group[0]").exists(),
-                xpath("/groups/group[0]/height").string("10"),
-                xpath("/groups/group[0]/count").string("8")
+                xpath("/groupsWrapper").exists(),
+                xpath("/groupsWrapper/groups").exists(),
+                xpath("count(/groupsWrapper/groups/group)").number(3.0),
+
+                xpath("/groupsWrapper/groups/group[1]").exists(),
+                xpath("/groupsWrapper/groups/group[1]/height").string("3"),
+                xpath("/groupsWrapper/groups/group[1]/count").string("2"),
+
+                xpath("/groupsWrapper/groups/group[2]").exists(),
+                xpath("/groupsWrapper/groups/group[2]/height").string("10"),
+                xpath("/groupsWrapper/groups/group[2]/count").string("1"),
+
+                xpath("/groupsWrapper/groups/group[3]").exists(),
+                xpath("/groupsWrapper/groups/group[3]/height").string("2"),
+                xpath("/groupsWrapper/groups/group[3]/count").string("1")
+            );
+    }
+
+    @Test
+    void getFlatsGroupByHeight_ReturnsResponseWithEmptyListStatusOk() throws Exception {
+        setupEmptyDb();;
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats/group-by/height");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/groupsWrapper").exists(),
+                xpath("/groupsWrapper/groups").exists(),
+                xpath("count(/groupsWrapper/groups/group)").number(0.0)
             );
     }
 }

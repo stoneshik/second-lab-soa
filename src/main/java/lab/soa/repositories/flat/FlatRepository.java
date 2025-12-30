@@ -1,5 +1,6 @@
-package lab.soa.repositories;
+package lab.soa.repositories.flat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -25,7 +26,9 @@ public interface FlatRepository extends JpaRepository<Flat, Long>,
 
     @Modifying
     @Transactional
-    @Query(value = """
+    @Query(
+        value =
+        """
         DELETE FROM flats f
         WHERE f.id = (
             SELECT f2.id FROM flats f2
@@ -37,7 +40,9 @@ public interface FlatRepository extends JpaRepository<Flat, Long>,
             ORDER BY f2.id
             LIMIT 1
         )
-        """, nativeQuery = true)
+        """,
+        nativeQuery = true
+    )
     int deleteFirstByHouseCriteria(
         @Param("houseName") String houseName,
         @Param("houseYear") Integer houseYear,
@@ -50,4 +55,15 @@ public interface FlatRepository extends JpaRepository<Flat, Long>,
 
     @Query(value = "SELECT CAST(SUM(height) AS BIGINT) FROM flats", nativeQuery = true)
     Long sumAllHeights();
+
+    @Query(
+        value = """
+        SELECT f.height as height, COUNT(f) as count
+        FROM Flat f
+        WHERE f.height IS NOT NULL
+        GROUP BY f.height
+        ORDER BY COUNT(f) DESC
+        """
+    )
+    List<HeightGroupProjection> getHeightDistributionByCount();
 }

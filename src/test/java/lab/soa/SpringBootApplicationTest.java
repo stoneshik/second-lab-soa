@@ -163,7 +163,7 @@ abstract class SpringBootApplicationTest {
             .coordinates(coordinates4)
             .area(4)
             .numberOfRooms(4)
-            .height(4)
+            .height(3)
             .view(View.GOOD)
             .transport(Transport.NORMAL)
             .house(house4)

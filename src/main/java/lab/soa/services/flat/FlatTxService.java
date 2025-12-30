@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lab.soa.bd.entities.Flat;
 import lab.soa.exceptions.ObjectNotFoundException;
-import lab.soa.repositories.FlatRepository;
+import lab.soa.repositories.flat.FlatRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

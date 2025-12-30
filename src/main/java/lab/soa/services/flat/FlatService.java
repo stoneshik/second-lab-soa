@@ -14,13 +14,16 @@ import org.springframework.validation.annotation.Validated;
 import lab.soa.bd.entities.Flat;
 import lab.soa.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.dto.requests.flat.FlatRequestUpdateDto;
-import lab.soa.dto.responses.ResponseLongValueDto;
+import lab.soa.dto.responses.LongValueResponseDto;
+import lab.soa.dto.responses.flat.FlatGroupByHeightResponseDto;
+import lab.soa.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.dto.responses.flat.FlatResponseDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.exceptions.IncorrectParamException;
 import lab.soa.exceptions.ObjectNotFoundException;
-import lab.soa.repositories.FlatRepository;
+import lab.soa.repositories.flat.FlatRepository;
+import lab.soa.repositories.flat.HeightGroupProjection;
 import lab.soa.util.flat.FlatToDtoFromEntityMapper;
 import lab.soa.util.flat.FlatToEntityFromDtoCreateRequest;
 import lab.soa.util.flat.FlatToEntityFromDtoUpdateRequest;
@@ -113,13 +116,30 @@ public class FlatService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseLongValueDto getAmountOfHeights() {
+    public LongValueResponseDto getAmountOfHeights() {
         Long amountOfHeights = flatRepository.sumAllHeights();
         if (amountOfHeights == null) {
             amountOfHeights = 0L;
         }
-        return ResponseLongValueDto.builder()
+        return LongValueResponseDto.builder()
             .value(amountOfHeights)
+            .build();
+    }
+
+    @Transactional(readOnly = true)
+    public FlatGroupsByHeightResponseDto getGroupsByHeight() {
+        List<HeightGroupProjection> heightGroupProjections = flatRepository.getHeightDistributionByCount();
+        List<FlatGroupByHeightResponseDto> groups = new ArrayList<>();
+        for (HeightGroupProjection groupProjection: heightGroupProjections) {
+            groups.add(
+                FlatGroupByHeightResponseDto.builder()
+                    .height(groupProjection.getHeight())
+                    .count(groupProjection.getCount())
+                    .build()
+            );
+        }
+        return FlatGroupsByHeightResponseDto.builder()
+            .groups(groups)
             .build();
     }
 
