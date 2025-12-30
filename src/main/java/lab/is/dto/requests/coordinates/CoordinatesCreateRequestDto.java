@@ -1,10 +1,9 @@
 package lab.is.dto.requests.coordinates;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,14 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class CoordinatesCreateRequestDto {
-    @XmlElement(name = "x")
+    @JacksonXmlProperty(localName = "x")
     @NotNull
     @DecimalMin(value = "-993.0")
     private Float x;
 
-    @XmlElement(name = "y")
+    @JacksonXmlProperty(localName = "y")
     @NotNull
     private Long y;
 }

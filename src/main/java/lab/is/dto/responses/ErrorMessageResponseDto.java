@@ -2,10 +2,9 @@ package lab.is.dto.responses;
 
 import java.time.LocalDateTime;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlRootElement(name = "error")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "error")
 public class ErrorMessageResponseDto {
-    @XmlElement(name = "message")
+    @JacksonXmlProperty(localName = "message")
     private String message;
 
-    @XmlElement(name = "time")
+    @JacksonXmlProperty(localName = "time")
     private LocalDateTime time;
 }

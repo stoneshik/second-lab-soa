@@ -1,10 +1,9 @@
 package lab.is.controllers;
 
-import java.net.URI;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,70 +15,75 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import lab.is.bd.entities.View;
 import lab.is.dto.requests.flat.FlatRequestCreateDto;
 import lab.is.dto.requests.flat.FlatRequestUpdateDto;
+import lab.is.dto.responses.flat.FlatResponseByIdDto;
 import lab.is.dto.responses.flat.FlatResponseDto;
 import lab.is.dto.responses.flat.WrapperListFlatsResponseDto;
-import lab.is.services.musicband.MusicBandService;
+import lab.is.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/flats")
+@RequestMapping(
+    value = "/api/v1/flats",
+    consumes = MediaType.APPLICATION_XML_VALUE,
+    produces = MediaType.APPLICATION_XML_VALUE
+)
 @RequiredArgsConstructor
 public class FlatController {
-    private static final String URI_RESOURCE = "/api/v1/music-bands";
-    private final MusicBandService musicBandService;
+    private final FlatService flatService;
+
+    @PostMapping
+    public ResponseEntity<FlatResponseByIdDto> create(@RequestBody FlatRequestCreateDto requestDto) {
+        FlatResponseByIdDto responseDto = flatService.create(requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
 
     @GetMapping
     public ResponseEntity<WrapperListFlatsResponseDto> getAll(
-        @RequestParam(required = false) String name,
-        @RequestParam(required = false) View genre,
-        @RequestParam(required = false) String description,
-        @RequestParam(required = false) String bestAlbumName,
-        @RequestParam(required = false) String studioName,
-        @RequestParam(required = false) String studioAddress,
-        @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+        @RequestParam(required = false) String filter,
+        @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return ResponseEntity.ok(
-            musicBandService.findAll(
-                name,
-                genre,
-                description,
-                bestAlbumName,
-                studioName,
-                studioAddress,
+            flatService.findAll(
+                filter,
                 pageable
             )
         );
     }
 
+    /*@DeleteMapping
+    public ResponseEntity<Void> deleteOneFlatByFilter(
+        @RequestParam(required = false) String houseName,
+        @RequestParam(required = false) Integer houseYear,
+        @RequestParam(required = false) Integer numberOfFlatsOnFloor
+    ) {
+        flatService.deleteOneFlatByFilter(
+            houseName,
+            houseYear,
+            numberOfFlatsOnFloor
+        );
+        return ResponseEntity.noContent().build();
+    }*/
+
     @GetMapping("/{id}")
     public ResponseEntity<FlatResponseDto> getById(@PathVariable Long id) {
-        FlatResponseDto dto = musicBandService.findById(id);
+        FlatResponseDto dto = flatService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid FlatRequestCreateDto dto) {
-        Long createdId = musicBandService.create(dto).getId();
-        URI location = URI.create(URI_RESOURCE + "/" + createdId);
-        return ResponseEntity.created(location).build();
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<FlatResponseByIdDto> update(
         @PathVariable Long id,
-        @RequestBody @Valid FlatRequestUpdateDto dto
+        @RequestBody FlatRequestUpdateDto requestDto
     ) {
-        musicBandService.update(id, dto);
-        return ResponseEntity.noContent().build();
+        FlatResponseByIdDto responseDto = flatService.update(id, requestDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        musicBandService.delete(id);
+        flatService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

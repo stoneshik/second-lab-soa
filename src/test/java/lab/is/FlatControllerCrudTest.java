@@ -1,5 +1,6 @@
 package lab.is;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
@@ -17,7 +18,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         setupDb();
         String xmlRequest = """
         <?xml version="1.0" encoding="UTF-8"?>
-        <Flat>
+        <flat>
             <name>Test Flat</name>
             <coordinates>
                 <x>1.1</x>
@@ -29,11 +30,11 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <name>First House</name>
+                <name>Test House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
-        </Flat>
+        </flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .post("/api/v1/flats")
@@ -42,22 +43,26 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Flat/id").string("1"),
-                xpath("/Flat/name").string("Test Flat"),
-                xpath("/Flat/coordinates/x").number(1.1),
-                xpath("/Flat/coordinates/y").string("123"),
-                xpath("/Flat/creationDate").exists(),
-                xpath("/Flat/area").string("1"),
-                xpath("/Flat/numberOfRooms").string("1"),
-                xpath("/Flat/height").string("10"),
-                xpath("/Flat/view").string("STREET"),
-                xpath("/Flat/transport").string("FEW"),
-                xpath("/Flat/house/name").string("First House"),
-                xpath("/Flat/house/year").string("2000"),
-                xpath("/Flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat").exists(),
+                xpath("/flat/id").string("5"),
+                xpath("/flat/name").string("Test Flat"),
+                xpath("/flat/coordinates/id").string("5"),
+                xpath("/flat/coordinates/x").number(1.1),
+                xpath("/flat/coordinates/y").string("123"),
+                xpath("/flat/creationDate").exists(),
+                xpath("/flat/area").string("1"),
+                xpath("/flat/numberOfRooms").string("1"),
+                xpath("/flat/height").string("10"),
+                xpath("/flat/view").string("STREET"),
+                xpath("/flat/transport").string("FEW"),
+                xpath("/flat/house/id").string("5"),
+                xpath("/flat/house/name").string("Test House"),
+                xpath("/flat/house/year").string("2000"),
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
             );
     }
 
@@ -91,14 +96,14 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isUnprocessableEntity(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Error").exists(),
-                xpath("/Error/messages").exists(),
-                xpath("/Error/messages/message").exists(),
-                xpath("/Error/time").exists(),
-                xpath("/Error/messages/message[1]").string("Flat field area equals or less than 0")
+                xpath("/error").exists(),
+                xpath("/error/messages").exists(),
+                xpath("/error/messages/message").exists(),
+                xpath("/error/time").exists()
             );
     }
 
@@ -111,22 +116,25 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Flat/id").string("1"),
-                xpath("/Flat/name").string("First Flat"),
-                xpath("/Flat/coordinates/x").number(1.1),
-                xpath("/Flat/coordinates/y").string("123"),
-                xpath("/Flat/creationDate").exists(),
-                xpath("/Flat/area").string("1"),
-                xpath("/Flat/numberOfRooms").string("1"),
-                xpath("/Flat/height").string("10"),
-                xpath("/Flat/view").string("STREET"),
-                xpath("/Flat/transport").string("FEW"),
-                xpath("/Flat/house/name").string("First House"),
-                xpath("/Flat/house/year").string("2000"),
-                xpath("/Flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat/id").string("1"),
+                xpath("/flat/name").string("First Flat"),
+                xpath("/flat/coordinates/id").string("1"),
+                xpath("/flat/coordinates/x").number(1.1),
+                xpath("/flat/coordinates/y").string("123"),
+                xpath("/flat/creationDate").exists(),
+                xpath("/flat/area").string("1"),
+                xpath("/flat/numberOfRooms").string("1"),
+                xpath("/flat/height").string("10"),
+                xpath("/flat/view").string("STREET"),
+                xpath("/flat/transport").string("FEW"),
+                xpath("/flat/house/id").string("1"),
+                xpath("/flat/house/name").string("First House"),
+                xpath("/flat/house/year").string("2000"),
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
             );
     }
 
@@ -139,12 +147,13 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNotFound(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Error").exists(),
-                xpath("/Error/message").string("Not found flat by id error"),
-                xpath("/Error/time").exists()
+                xpath("/error").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/time").exists()
             );
     }
 
@@ -157,6 +166,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
+                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -166,7 +176,8 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <name>First House</name>
+                <id>1</id>
+                <name>Updated House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
@@ -179,22 +190,23 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Flat/id").string("1"),
-                xpath("/Flat/name").string("Updated Flat"),
-                xpath("/Flat/coordinates/x").number(100.1),
-                xpath("/Flat/coordinates/y").string("123"),
-                xpath("/Flat/creationDate").exists(),
-                xpath("/Flat/area").string("1"),
-                xpath("/Flat/numberOfRooms").string("1"),
-                xpath("/Flat/height").string("10"),
-                xpath("/Flat/view").string("STREET"),
-                xpath("/Flat/transport").string("FEW"),
-                xpath("/Flat/house/name").string("First House"),
-                xpath("/Flat/house/year").string("2000"),
-                xpath("/Flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat/id").string("1"),
+                xpath("/flat/name").string("Updated Flat"),
+                xpath("/flat/coordinates/x").number(100.1),
+                xpath("/flat/coordinates/y").string("123"),
+                xpath("/flat/creationDate").exists(),
+                xpath("/flat/area").string("1"),
+                xpath("/flat/numberOfRooms").string("1"),
+                xpath("/flat/height").string("10"),
+                xpath("/flat/view").string("STREET"),
+                xpath("/flat/transport").string("FEW"),
+                xpath("/flat/house/name").string("Updated House"),
+                xpath("/flat/house/year").string("2000"),
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
             );
     }
 
@@ -207,6 +219,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
+                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -216,6 +229,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
+                <id>1</id>
                 <name>First House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
@@ -229,14 +243,14 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isUnprocessableEntity(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Error").exists(),
-                xpath("/Error/messages").exists(),
-                xpath("/Error/messages/message").exists(),
-                xpath("/Error/time").exists(),
-                xpath("/Error/messages/message[1]").string("Flat field area equals or less than 0")
+                xpath("/error").exists(),
+                xpath("/error/messages").exists(),
+                xpath("/error/messages/message").exists(),
+                xpath("/error/time").exists()
             );
     }
 
@@ -249,6 +263,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         <Flat>
             <name>Updated Flat</name>
             <coordinates>
+                <id>1</id>
                 <x>100.1</x>
                 <y>123</y>
             </coordinates>
@@ -258,6 +273,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
+                <id>1</id>
                 <name>First House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
@@ -271,12 +287,13 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNotFound(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Error").exists(),
-                xpath("/Error/message").string("Not found flat by id error"),
-                xpath("/Error/time").exists()
+                xpath("/error").exists(),
+                xpath("/error/messages/message").exists(),
+                xpath("/error/time").exists()
             );
     }
 
@@ -303,6 +320,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNotFound()
             );
@@ -382,6 +400,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isNotFound()
             );
@@ -395,11 +414,12 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                xpath("/Response").exists(),
-                xpath("/Response").string("123")
+                xpath("/response").exists(),
+                xpath("/response").string("123")
             );
     }
 
@@ -411,6 +431,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),

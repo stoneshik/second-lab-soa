@@ -1,12 +1,11 @@
 package lab.is.dto.responses.flat;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import lab.is.dto.responses.TransportResponseDto;
-import lab.is.dto.responses.ViewResponseDto;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import lab.is.bd.entities.Transport;
+import lab.is.bd.entities.View;
 import lab.is.dto.responses.coordinates.CoordinatesResponseDto;
 import lab.is.dto.responses.house.HouseResponseDto;
 import lombok.AllArgsConstructor;
@@ -18,34 +17,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class FlatResponseDto {
-    @XmlElement(name = "id")
+    @JacksonXmlProperty(localName = "id")
     private Long id;
 
-    @XmlElement(name = "name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
 
-    @XmlElement(name = "coordinates")
+    @JacksonXmlProperty(localName = "coordinates")
     private CoordinatesResponseDto coordinates;
 
-    @XmlElement(name = "area")
+    @JacksonXmlProperty(localName = "creationDate")
+    private LocalDateTime creationDate;
+
+    @JacksonXmlProperty(localName = "area")
     private Integer area;
 
-    @XmlElement(name = "numberOfRooms")
+    @JacksonXmlProperty(localName = "numberOfRooms")
     private Integer numberOfRooms;
 
-    @XmlElement(name = "height")
+    @JacksonXmlProperty(localName = "height")
     private Integer height;
 
-    @XmlElement(name = "view")
-    @Enumerated(EnumType.STRING)
-    private ViewResponseDto view;
+    @JacksonXmlProperty(localName = "view")
+    private View view;
 
-    @XmlElement(name = "transport")
-    @Enumerated(EnumType.STRING)
-    private TransportResponseDto transport;
+    @JacksonXmlProperty(localName = "transport")
+    private Transport transport;
 
-    @XmlElement(name = "house")
+    @JacksonXmlProperty(localName = "house")
     private HouseResponseDto house;
 }

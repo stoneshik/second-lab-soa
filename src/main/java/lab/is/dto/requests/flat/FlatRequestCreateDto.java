@@ -1,19 +1,18 @@
 package lab.is.dto.requests.flat;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import lab.is.dto.requests.TransportRequestDto;
-import lab.is.dto.requests.ViewRequestDto;
+import lab.is.bd.entities.Transport;
+import lab.is.bd.entities.View;
 import lab.is.dto.requests.coordinates.CoordinatesCreateRequestDto;
-import lab.is.dto.requests.house.HouseRequestCreateDto;
+import lab.is.dto.requests.house.HouseCreateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,43 +22,42 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlRootElement(name = "flat")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "flat")
 public class FlatRequestCreateDto {
-    @XmlElement(name = "name")
+    @JacksonXmlProperty(localName = "name")
     @NotNull
     @NotBlank
     private String name;
 
-    @XmlElement(name = "coordinates")
+    @JacksonXmlProperty(localName = "coordinates")
     @Valid
     @NotNull
     private CoordinatesCreateRequestDto coordinates;
 
-    @XmlElement(name = "area")
+    @JacksonXmlProperty(localName = "area")
     @Positive
     private Integer area;
 
-    @XmlElement(name = "numberOfRooms")
+    @JacksonXmlProperty(localName = "numberOfRooms")
     @NotNull
     @Positive
     private Integer numberOfRooms;
 
-    @XmlElement(name = "height")
+    @JacksonXmlProperty(localName = "height")
     @NotNull
     @Positive
     private Integer height;
 
-    @XmlElement(name = "view")
+    @JacksonXmlProperty(localName = "view")
     @Enumerated(EnumType.STRING)
-    private ViewRequestDto view;
+    private View view;
 
-    @XmlElement(name = "transport")
+    @JacksonXmlProperty(localName = "transport")
     @Enumerated(EnumType.STRING)
-    private TransportRequestDto transport;
+    private Transport transport;
 
-    @XmlElement(name = "house")
+    @JacksonXmlProperty(localName = "house")
     @Valid
     @NotNull
-    private HouseRequestCreateDto house;
+    private HouseCreateRequestDto house;
 }

@@ -7,7 +7,7 @@ servers:
   - url: 'http://localhost:335159/api/v1/'
 paths:
   # CRUD operations
-  /flats/:
+  /flats:
     post:
       summary: Add new flat
       operationId: addFlat
@@ -78,52 +78,39 @@ paths:
       parameters:
         - name: sort
           in: query
-          description: >
-            Array of fields that are used for sorting.<br>
-            The minus sign means sorting in descending order.<br>
-            Without minus sign means sorting in ascending order.<br>
-            If ascdending and descending order are provided for one field (with and without minus), an error response will be returned
+          description: |
+            Sorting parameters in the format `property,asc|desc`.
+            Multiple comma-separated sorts are supported.<br>
+            Available sorting fields:
+            - id
+            - name
+            - coordinates.id
+            - coordinates.x
+            - coordinates.y
+            - creationDate
+            - area
+            - numberOfRooms
+            - height
+            - view
+            - transport
+            - house.id
+            - house.name
+            - house.year
+            - house.numberOfFlatsOnFloor
           required: false
-          explode: true
           schema:
             type: array
             items:
               type: string
-              default: id
-              enum:
-                - id
-                - name
-                - coordinates.x
-                - coordinates.y
-                - creationDate
-                - area
-                - numberOfRooms
-                - height
-                - view
-                - transport
-                - house.name
-                - house.year
-                - house.numberOfFlatsOnFloor
-                - -id
-                - -name
-                - -coordinates.x
-                - -coordinates.y
-                - -creationDate
-                - -area
-                - -numberOfRooms
-                - -height
-                - -view
-                - -transport
-                - -house.name
-                - -house.year
-                - -house.numberOfFlatsOnFloor
+            default: ["name,asc"]
         - name: filter
           in: query
           required: false
           description: >
             Field filter list.<br>
-            Format (except interval and range): `field[operation]:value`.<br>
-            Format for interval and range: `field[operation]:min,max`<br>
+            Format (except interval and range): `field(operation)value`.<br>
+            Format for interval and range: `field(operation)min_max`<br>
+            Interval and range supports only numbers<br>
             Available operations:<br>
             - `eq` - equals<br>
             - `ne` - not equals<br>
@@ -134,10 +121,10 @@ paths:
             - `interval` - open interval `(min, max)`<br>
             - `range` - closed range `[min, max]`<br>
             Examples:<br>
-            - `area[gt]:10` - area > 10<br>
-            - `area[interval]:10,20` - 10 < area < 20<br>
-            - `numberOfRooms[range]:1,3` - 1 ≤ rooms ≤ 3<br>
-            If operation is `interval` or `range`, value **must** contain 2 numbers separated by comma.<br>
+            - `area(gt)10` - area > 10<br>
+            - `area(interval)10_20` - 10 < area < 20<br>
+            - `numberOfRooms(range)1_3` - 1 ≤ rooms ≤ 3<br>
+            If operation is `interval` or `range`, value **must** contain 2 numbers separated by `_`.<br>
             Otherwise - one value. Incorrect value returns exception with code 400.
           style: deepObject
           explode: true
@@ -145,8 +132,8 @@ paths:
             type: array
             items:
               type: string
-              example: area[interval]:10,20
-              pattern: '^(?:(?:id|name|coordinates\.x|coordinates\.y|creationDate|area|numberOfRooms|height|view|transport|house\.name|house\.year|house\.numberOfFlatsOnFloor)\[(?:eq|ne|gt|lt|lte|gte)\]:[^,]+|(?:id|name|coordinates\.x|coordinates\.y|creationDate|area|numberOfRooms|height|view|transport|house\.name|house\.year|house\.numberOfFlatsOnFloor)\[(?:interval|range)\]:[^,]+,[^,]+)$'
+              example: "area[interval]:10,20"
+            default: ["area[interval]:10,20"]
         - name: page
           in: query
           required: false
@@ -263,7 +250,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Not found flat by filter param error
+                    example: Not found flat by filter param
                   time:
                     type: string
                     format: date-time
@@ -344,7 +331,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Not found flat by id error
+                    example: "Not found flat by id: 1"
                   time:
                     type: string
                     format: date-time
@@ -424,6 +411,22 @@ paths:
                     type: string
                     format: date-time
                     example: 2024-11-10T00:10:12Z
+        '404':
+          description: Not found flat by param id error
+          content:
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: error
+                properties:
+                  message:
+                    type: string
+                    example: "Not found flat by id: 1"
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2024-11-10T00:10:12Z
         '500':
           description: Internal server error
           content:
@@ -476,7 +479,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Not found flat by id error
+                    example: "Not found flat by id: 1"
                   time:
                     type: string
                     format: date-time
@@ -714,6 +717,14 @@ components:
       type: object
       nullable: false
       properties:
+        id:
+          type: integer
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 1
+          description: Unique identifier for coordinates, generate automatically
+          readOnly: true
         x:
           type: number
           format: float
@@ -734,6 +745,14 @@ components:
       type: object
       nullable: false
       properties:
+        id:
+          type: integer
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 1
+          description: Unique identifier for house, generate automatically
+          readOnly: true
         name:
           type: string
           nullable: false

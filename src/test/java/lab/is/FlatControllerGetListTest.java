@@ -22,7 +22,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .perform(requestBuilder)
             .andExpectAll(
                 status().isOk(),
-                content().contentTypeCompatibleWith("application/json"),
+                content().contentType(MediaType.APPLICATION_XML),
                 content().xml("""
                     <?xml version="1.0" encoding="UTF-8"?>
                     <FlatsPage>
@@ -52,6 +52,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats").exists(),
                 xpath("/FlatsPage/flats/Flat[1]/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("First Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(1.1),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("123"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -60,12 +61,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("10"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("STREET"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("FEW"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("First House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2000"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("9"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -74,12 +77,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[3]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[3]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[3]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[3]/creationDate").exists(),
@@ -88,12 +93,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[3]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[3]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[3]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[3]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[3]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[3]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[3]/house/numberOfFlatsOnFloor").string("8"),
 
                 xpath("/FlatsPage/flats/Flat[4]/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[4]/name").string("Fourth Flat"),
+                xpath("/FlatsPage/flats/Flat[4]/coordinates/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[4]/coordinates/x").number(110.1),
                 xpath("/FlatsPage/flats/Flat[4]/coordinates/y").string("1234"),
                 xpath("/FlatsPage/flats/Flat[4]/creationDate").exists(),
@@ -102,6 +109,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[4]/height").string("4"),
                 xpath("/FlatsPage/flats/Flat[4]/view").string("GOOD"),
                 xpath("/FlatsPage/flats/Flat[4]/transport").string("NORMAL"),
+                xpath("/FlatsPage/flats/Flat[4]/house/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[4]/house/name").string("Fourth House"),
                 xpath("/FlatsPage/flats/Flat[4]/house/year").string("2003"),
                 xpath("/FlatsPage/flats/Flat[4]/house/numberOfFlatsOnFloor").string("1"),
@@ -118,7 +126,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "-id")
+            .param("sort", "id,desc")
             .param("page", "1")
             .param("size", "2");
 
@@ -132,6 +140,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Fourth Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(110.1),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("1234"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -140,12 +149,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("4"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("GOOD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("NORMAL"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Fourth House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2003"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("1"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -154,6 +165,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),
@@ -170,7 +182,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[eq]:1.1");
@@ -184,6 +196,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats").exists(),
                 xpath("/FlatsPage/flats/Flat[1]/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("First Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(1.1),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("123"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -192,9 +205,11 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("10"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("STREET"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("FEW"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("First House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2000"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("9"),
+
 
                 xpath("/FlatsPage/totalElements").string("4"),
                 xpath("/FlatsPage/totalPages").string("1"),
@@ -208,7 +223,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[ne]:1.1");
@@ -223,6 +238,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -231,12 +247,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -245,12 +263,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),
 
                 xpath("/FlatsPage/flats/Flat[3]/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/name").string("Fourth Flat"),
+                xpath("/FlatsPage/flats/Flat[3]/coordinates/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/x").number(110.1),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/y").string("1234"),
                 xpath("/FlatsPage/flats/Flat[3]/creationDate").exists(),
@@ -259,6 +279,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[3]/height").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/view").string("GOOD"),
                 xpath("/FlatsPage/flats/Flat[3]/transport").string("NORMAL"),
+                xpath("/FlatsPage/flats/Flat[3]/house/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/house/name").string("Fourth House"),
                 xpath("/FlatsPage/flats/Flat[3]/house/year").string("2003"),
                 xpath("/FlatsPage/flats/Flat[3]/house/numberOfFlatsOnFloor").string("1"),
@@ -275,7 +296,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[gt]:1.1");
@@ -290,6 +311,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -298,12 +320,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -312,12 +336,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),
 
                 xpath("/FlatsPage/flats/Flat[3]/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/name").string("Fourth Flat"),
+                xpath("/FlatsPage/flats/Flat[3]/coordinates/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/x").number(110.1),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/y").string("1234"),
                 xpath("/FlatsPage/flats/Flat[3]/creationDate").exists(),
@@ -326,6 +352,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[3]/height").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/view").string("GOOD"),
                 xpath("/FlatsPage/flats/Flat[3]/transport").string("NORMAL"),
+                xpath("/FlatsPage/flats/Flat[3]/house/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/house/name").string("Fourth House"),
                 xpath("/FlatsPage/flats/Flat[3]/house/year").string("2003"),
                 xpath("/FlatsPage/flats/Flat[3]/house/numberOfFlatsOnFloor").string("1"),
@@ -342,7 +369,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[lt]:1.1");
@@ -371,7 +398,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[gte]:1.1");
@@ -381,9 +408,12 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
+                xpath("/FlatsPage").exists(),
+                xpath("/FlatsPage/flats").exists(),
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -392,12 +422,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -406,12 +438,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),
 
                 xpath("/FlatsPage/flats/Flat[3]/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/name").string("Fourth Flat"),
+                xpath("/FlatsPage/flats/Flat[3]/coordinates/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/x").number(110.1),
                 xpath("/FlatsPage/flats/Flat[3]/coordinates/y").string("1234"),
                 xpath("/FlatsPage/flats/Flat[3]/creationDate").exists(),
@@ -420,6 +454,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[3]/height").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/view").string("GOOD"),
                 xpath("/FlatsPage/flats/Flat[3]/transport").string("NORMAL"),
+                xpath("/FlatsPage/flats/Flat[3]/house/id").string("4"),
                 xpath("/FlatsPage/flats/Flat[3]/house/name").string("Fourth House"),
                 xpath("/FlatsPage/flats/Flat[3]/house/year").string("2003"),
                 xpath("/FlatsPage/flats/Flat[3]/house/numberOfFlatsOnFloor").string("1"),
@@ -436,7 +471,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[lte]:1.1");
@@ -451,6 +486,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -459,6 +495,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
@@ -475,7 +512,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[interval]:1.1,2.0");
@@ -490,6 +527,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -498,6 +536,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
@@ -514,7 +553,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
             .param("filter", "coordinates.x[range]:1.1,2.0");
@@ -529,6 +568,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -537,12 +577,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -551,6 +593,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),
@@ -567,10 +610,10 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
-            .param("sort", "id")
+            .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "2")
-            .param("filter", "coordinates.x[gte]:1.1;coordinates.y[lt]:101");
+            .param("filter", "coordinates.x[gte]:1.1_coordinates.y[lt]:101");
 
         mockMvc
             .perform(requestBuilder)
@@ -582,6 +625,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
                 xpath("/FlatsPage/flats/Flat[1]/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/name").string("Second Flat"),
+                xpath("/FlatsPage/flats/Flat[1]/coordinates/id").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/x").number(2.0),
                 xpath("/FlatsPage/flats/Flat[1]/coordinates/y").string("100"),
                 xpath("/FlatsPage/flats/Flat[1]/creationDate").exists(),
@@ -590,12 +634,14 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[1]/height").string("2"),
                 xpath("/FlatsPage/flats/Flat[1]/view").string("BAD"),
                 xpath("/FlatsPage/flats/Flat[1]/transport").string("ENOUGH"),
+                xpath("/FlatsPage/flats/Flat[1]/house/id").string("1"),
                 xpath("/FlatsPage/flats/Flat[1]/house/name").string("Second House"),
                 xpath("/FlatsPage/flats/Flat[1]/house/year").string("2001"),
                 xpath("/FlatsPage/flats/Flat[1]/house/numberOfFlatsOnFloor").string("12"),
 
                 xpath("/FlatsPage/flats/Flat[2]/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/name").string("Third Flat"),
+                xpath("/FlatsPage/flats/Flat[2]/coordinates/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/x").number(100.0),
                 xpath("/FlatsPage/flats/Flat[2]/coordinates/y").string("200"),
                 xpath("/FlatsPage/flats/Flat[2]/creationDate").exists(),
@@ -604,6 +650,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/FlatsPage/flats/Flat[2]/height").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/view").string("YARD"),
                 xpath("/FlatsPage/flats/Flat[2]/transport").string("NONE"),
+                xpath("/FlatsPage/flats/Flat[2]/house/id").string("3"),
                 xpath("/FlatsPage/flats/Flat[2]/house/name").string("Third House"),
                 xpath("/FlatsPage/flats/Flat[2]/house/year").string("2002"),
                 xpath("/FlatsPage/flats/Flat[2]/house/numberOfFlatsOnFloor").string("8"),

@@ -1,10 +1,9 @@
 package lab.is.dto.responses.house;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,17 +13,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class HouseResponseDto {
-    @XmlElement(name = "name")
+    @JacksonXmlProperty(localName = "id")
+    private Long id;
+
+    @JacksonXmlProperty(localName = "name")
     @NotNull
     private String name;
 
-    @XmlElement(name = "year")
+    @JacksonXmlProperty(localName = "year")
     @Positive
     private Integer year;
 
-    @XmlElement(name = "numberOfFlatsOnFloor")
+    @JacksonXmlProperty(localName = "numberOfFlatsOnFloor")
     @Positive
     private Integer numberOfFlatsOnFloor;
 }

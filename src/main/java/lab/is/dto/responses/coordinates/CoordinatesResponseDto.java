@@ -1,8 +1,7 @@
 package lab.is.dto.responses.coordinates;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class CoordinatesResponseDto {
-    @XmlElement(name = "x")
+    @JacksonXmlProperty(localName = "id")
+    private Long id;
+
+    @JacksonXmlProperty(localName = "x")
     private Float x;
 
-    @XmlElement(name = "y")
+    @JacksonXmlProperty(localName = "y")
     private Long y;
 }
