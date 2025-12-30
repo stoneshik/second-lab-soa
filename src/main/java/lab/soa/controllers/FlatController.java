@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lab.soa.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.dto.requests.flat.FlatRequestUpdateDto;
+import lab.soa.dto.responses.ResponseLongValueDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
-import lab.soa.dto.responses.flat.FlatResponseDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
@@ -93,5 +93,14 @@ public class FlatController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         flatService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(
+        value = "/sum/height",
+        produces = MediaType.APPLICATION_XML_VALUE
+    )
+    public ResponseEntity<ResponseLongValueDto> getAmountOfHeights() {
+        ResponseLongValueDto dto = flatService.getAmountOfHeights();
+        return ResponseEntity.ok(dto);
     }
 }

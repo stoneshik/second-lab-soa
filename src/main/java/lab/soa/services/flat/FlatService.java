@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import lab.soa.bd.entities.Flat;
 import lab.soa.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.dto.requests.flat.FlatRequestUpdateDto;
+import lab.soa.dto.responses.ResponseLongValueDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.dto.responses.flat.FlatResponseDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
-import lab.soa.exceptions.IncorrectDtoInRequestException;
 import lab.soa.exceptions.IncorrectParamException;
 import lab.soa.exceptions.ObjectNotFoundException;
 import lab.soa.repositories.FlatRepository;
@@ -111,6 +110,17 @@ public class FlatService {
         Flat flat = flatTxService.findByIdReturnsEntity(id);
         flatRepository.delete(flat);
         flatRepository.flush();
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseLongValueDto getAmountOfHeights() {
+        Long amountOfHeights = flatRepository.sumAllHeights();
+        if (amountOfHeights == null) {
+            amountOfHeights = 0L;
+        }
+        return ResponseLongValueDto.builder()
+            .value(amountOfHeights)
+            .build();
     }
 
     @Transactional(readOnly = true)

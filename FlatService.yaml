@@ -525,26 +525,29 @@ paths:
                 $ref: '#/components/schemas/error'
 
   # Additional operations
-  /flats/amount/height:
+  /flats/sum/height:
     get:
-      summary: Get amount of fields "height" for all flat objects
-      description: Get amount of fields "height" for all flat objects
+      summary: Get sum of fields "height" for all flat objects
+      description: Get sum of fields "height" for all flat objects
       operationId: getAmountOfFieldsHeight
       tags:
         - Registry
       responses:
         '200':
-          description: Successfully returns amount of fields "height" for all flat objects
+          description: Successfully returns sum of fields "height" for all flat objects
           content:
             application/xml:
               schema:
-                type: integer
+                type: object
                 xml:
                   name: response
-                format: int64
-                nullable: false
-                minimum: 0
-                example: 123
+                properties:
+                  value:
+                    type: integer
+                    format: int64
+                    nullable: false
+                    minimum: 0
+                    example: 123
         '500':
           description: Internal server error
           content:

@@ -428,10 +428,10 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
     }
 
     @Test
-    void getFlatsAmountHeight_ReturnsResponseWithStatusOk() throws Exception {
+    void getFlatsSumHeight_ReturnsResponseWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/api/v1/flats/amount/height");
+            .get("/api/v1/flats/sum/height");
 
         mockMvc
             .perform(requestBuilder)
@@ -440,7 +440,24 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/response").exists(),
-                xpath("/response").string("123")
+                xpath("/response").string("19")
+            );
+    }
+
+    @Test
+    void getFlatsZeroSumHeight_ReturnsResponseWithStatusOk() throws Exception {
+        setupEmptyDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats/sum/height");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/response").exists(),
+                xpath("/response").string("0")
             );
     }
 

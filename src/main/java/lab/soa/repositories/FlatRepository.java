@@ -47,4 +47,7 @@ public interface FlatRepository extends JpaRepository<Flat, Long>,
     @Override
     @EntityGraph(attributePaths = {"coordinates", "house"})
     Optional<Flat> findById(Long id);
+
+    @Query(value = "SELECT CAST(SUM(height) AS BIGINT) FROM flats", nativeQuery = true)
+    Long sumAllHeights();
 }
