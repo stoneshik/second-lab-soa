@@ -53,7 +53,7 @@ public class FlatController {
         );
     }
 
-    /*@DeleteMapping
+    @DeleteMapping
     public ResponseEntity<Void> deleteOneFlatByFilter(
         @RequestParam(required = false) String houseName,
         @RequestParam(required = false) Integer houseYear,
@@ -65,7 +65,7 @@ public class FlatController {
             numberOfFlatsOnFloor
         );
         return ResponseEntity.noContent().build();
-    }*/
+    }
 
     @GetMapping(
         value = "/{id}",

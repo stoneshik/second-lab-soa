@@ -390,6 +390,24 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
     }
 
     @Test
+    void deleteOneFlatByFilter_ReturnsResponseWithStatusBadRequest() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .delete("/api/v1/flats");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/error").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/time").exists()
+            );
+    }
+
+    @Test
     void deleteOneFlatByFilter_ReturnsResponseWithStatusNotFound() throws Exception {
         setupDb();
         final String houseName = "Not Found House";
@@ -401,7 +419,11 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .perform(requestBuilder)
             .andDo(print())
             .andExpectAll(
-                status().isNotFound()
+                status().isNotFound(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/error").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/time").exists()
             );
     }
 

@@ -18,6 +18,7 @@ import jakarta.validation.ConstraintViolationException;
 import lab.soa.dto.responses.ErrorMessageResponseDto;
 import lab.soa.dto.responses.ErrorMessagesResponseDto;
 import lab.soa.exceptions.IncorrectDtoInRequestException;
+import lab.soa.exceptions.IncorrectParamException;
 import lab.soa.exceptions.ObjectNotFoundException;
 
 @RestControllerAdvice
@@ -42,6 +43,18 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.UNPROCESSABLE_ENTITY)
+            .contentType(MediaType.APPLICATION_XML)
+            .body(dto);
+    }
+
+    @ExceptionHandler(IncorrectParamException.class)
+    public ResponseEntity<ErrorMessageResponseDto> handleException(IncorrectParamException e) {
+        ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .message(e.getMessage())
+            .time(LocalDateTime.now())
+            .build();
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_XML)
             .body(dto);
     }

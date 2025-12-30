@@ -202,6 +202,7 @@ paths:
       summary: Delete one flat by filter
       description: >
         Deletes one (any) Flat object that matches the specified criteria.<br>
+        The value that is equal to the one specified in the filter is deleted.<br>
         If multiple matching records are found, the first matching record is deleted.
       operationId: deleteOneFlatByFilter
       parameters:
@@ -239,6 +240,22 @@ paths:
       responses:
         '204':
           description: Flat was successfully deleted
+        '400':
+          description: At least one parameter was not passed
+          content:
+            applicaiton/xml:
+              schema:
+                type: object
+                xml:
+                  name: error
+                properties:
+                  message:
+                    type: string
+                    example: At least one parameter was not passed
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2024-11-10T00:10:12Z
         '404':
           description: Not found flat by filter param error
           content:

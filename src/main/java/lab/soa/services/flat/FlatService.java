@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lab.soa.bd.entities.Flat;
 import lab.soa.dto.requests.flat.FlatRequestCreateDto;
@@ -17,6 +18,9 @@ import lab.soa.dto.requests.flat.FlatRequestUpdateDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.dto.responses.flat.FlatResponseDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
+import lab.soa.exceptions.IncorrectDtoInRequestException;
+import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.exceptions.ObjectNotFoundException;
 import lab.soa.repositories.FlatRepository;
 import lab.soa.util.flat.FlatToDtoFromEntityMapper;
 import lab.soa.util.flat.FlatToEntityFromDtoCreateRequest;
@@ -31,6 +35,14 @@ public class FlatService {
     private final FlatTxService flatTxService;
     private final FlatToEntityFromDtoCreateRequest flatToEntityFromDtoCreateRequest;
     private final FlatToEntityFromDtoUpdateRequest flatToEntityFromDtoUpdateRequest;
+
+    @Transactional
+    public FlatResponseByIdDto create(FlatRequestCreateDto dto) {
+        Flat flat = flatToEntityFromDtoCreateRequest.toEntityFromDto(dto);
+        Flat savedFlat = flatRepository.save(flat);
+        flatRepository.flush();
+        return FlatToDtoFromEntityMapper.toByIdDtoFromEntity(savedFlat);
+    }
 
     @Transactional(readOnly = true)
     public WrapperListFlatsResponseDto findAll(
@@ -57,18 +69,29 @@ public class FlatService {
             .build();
     }
 
+    @Transactional
+    public void deleteOneFlatByFilter(
+        String houseName,
+        Integer houseYear,
+        Integer numberOfFlatsOnFloor
+    ) {
+        if (houseName == null && houseYear == null && numberOfFlatsOnFloor == null) {
+            throw new IncorrectParamException("At least one parameter was not passed");
+        }
+        int numberDeletedRows = flatRepository.deleteFirstByHouseCriteria(
+            houseName,
+            houseYear,
+            numberOfFlatsOnFloor
+        );
+        if (numberDeletedRows == 0) {
+            throw new ObjectNotFoundException("Not found flat by filter param");
+        }
+    }
+
     @Transactional(readOnly = true)
     public FlatResponseByIdDto findById(Long id) {
         Flat flat = flatTxService.findByIdReturnsEntity(id);
         return FlatToDtoFromEntityMapper.toByIdDtoFromEntity(flat);
-    }
-
-    @Transactional
-    public FlatResponseByIdDto create(FlatRequestCreateDto dto) {
-        Flat flat = flatToEntityFromDtoCreateRequest.toEntityFromDto(dto);
-        Flat savedFlat = flatRepository.save(flat);
-        flatRepository.flush();
-        return FlatToDtoFromEntityMapper.toByIdDtoFromEntity(savedFlat);
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
