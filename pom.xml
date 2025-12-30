@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>lab</groupId>
-	<artifactId>is</artifactId>
+	<artifactId>soa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>is</name>
+	<name>soa</name>
 	<description>Lab for &quot;SOA&quot;</description>
 	<properties>
 		<java.version>17</java.version>
