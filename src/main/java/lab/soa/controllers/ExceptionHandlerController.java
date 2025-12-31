@@ -1,5 +1,6 @@
 package lab.soa.controllers;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,18 @@ public class ExceptionHandlerController {
             .body(dto);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorMessageResponseDto> handleException(IllegalArgumentException e) {
+        ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .message("Invalid argument")
+            .time(LocalDateTime.now())
+            .build();
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .contentType(MediaType.APPLICATION_XML)
+            .body(dto);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessageResponseDto> handleException(MethodArgumentNotValidException e) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
@@ -84,6 +97,18 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.UNPROCESSABLE_ENTITY)
+            .contentType(MediaType.APPLICATION_XML)
+            .body(dto);
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ErrorMessageResponseDto> handleException(SQLException e) {
+        ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .message("Internal server error")
+            .time(LocalDateTime.now())
+            .build();
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .contentType(MediaType.APPLICATION_XML)
             .body(dto);
     }

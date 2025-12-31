@@ -22,6 +22,7 @@ import lab.soa.dto.responses.flat.FlatResponseDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.exceptions.IncorrectParamException;
 import lab.soa.exceptions.ObjectNotFoundException;
+import lab.soa.filters.flat.FlatFilterParam;
 import lab.soa.repositories.flat.FlatRepository;
 import lab.soa.repositories.flat.HeightGroupProjection;
 import lab.soa.util.flat.FlatToDtoFromEntityMapper;
@@ -48,7 +49,7 @@ public class FlatService {
 
     @Transactional(readOnly = true)
     public WrapperListFlatsResponseDto findAll(
-        String filter,
+        List<FlatFilterParam> filterParams,
         Pageable pageable
     ) {
         Specification<Flat> specification = Specification.unrestricted();

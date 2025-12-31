@@ -116,8 +116,8 @@ paths:
             - `ne` - not equals<br>
             - `gt` - greater than (strict)<br>
             - `lt` - less than (strict)<br>
-            - `gte` - greater or equal<br>
-            - `lte` - less or equal<br>
+            - `gte` - greater than or equals<br>
+            - `lte` - less than or equals<br>
             - `interval` - open interval `(min, max)`<br>
             - `range` - closed range `[min, max]`<br>
             Examples:<br>
@@ -125,15 +125,17 @@ paths:
             - `area(interval)10_20` - 10 < area < 20<br>
             - `numberOfRooms(range)1_3` - 1 ≤ rooms ≤ 3<br>
             If operation is `interval` or `range`, value **must** contain 2 numbers separated by `_`.<br>
-            Otherwise - one value. Incorrect value returns exception with code 400.
+            Otherwise - one value. Incorrect value returns exception with code 400.<br>
+            pattern: ^([a-z]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$
           style: deepObject
           explode: true
           schema:
             type: array
             items:
               type: string
-              example: "area[interval]:10,20"
-            default: ["area[interval]:10,20"]
+              example: "area(interval)10_20"
+            pattern: "^([a-z]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$"
+            default: ["area(interval)10_20"]
         - name: page
           in: query
           required: false

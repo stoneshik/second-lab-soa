@@ -1,5 +1,7 @@
 package lab.soa.controllers;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -21,6 +23,7 @@ import lab.soa.dto.responses.LongValueResponseDto;
 import lab.soa.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.dto.responses.flat.WrapperListFlatsResponseDto;
+import lab.soa.filters.flat.FlatFilterParam;
 import lab.soa.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
 
@@ -43,12 +46,12 @@ public class FlatController {
         produces = MediaType.APPLICATION_XML_VALUE
     )
     public ResponseEntity<WrapperListFlatsResponseDto> getAll(
-        @RequestParam(required = false) String filter,
+        @RequestParam(name = "filter", required = false) List<FlatFilterParam> filterParams,
         @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return ResponseEntity.ok(
             flatService.findAll(
-                filter,
+                filterParams,
                 pageable
             )
         );

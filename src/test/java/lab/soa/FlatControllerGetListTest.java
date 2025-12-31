@@ -186,7 +186,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[eq]:1.1");
+            .param("filter", "coordinates.x(eq)1.1");
 
         mockMvc
             .perform(requestBuilder)
