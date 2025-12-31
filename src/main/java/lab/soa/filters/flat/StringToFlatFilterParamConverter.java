@@ -88,6 +88,6 @@ public class StringToFlatFilterParamConverter implements Converter<String, FlatF
     }
 
     public boolean isNotNumber(String numberString) {
-        return numberPattern.matcher(numberString).matches();
+        return !numberPattern.matcher(numberString).matches();
     }
 }

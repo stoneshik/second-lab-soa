@@ -229,7 +229,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[ne]:1.1");
+            .param("filter", "coordinates.x(ne)1.1");
 
         mockMvc
             .perform(requestBuilder)
@@ -303,7 +303,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[gt]:1.1");
+            .param("filter", "coordinates.x(gt)1.1");
 
         mockMvc
             .perform(requestBuilder)
@@ -377,7 +377,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[lt]:1.1");
+            .param("filter", "coordinates.x(lt)1.1");
 
         mockMvc
             .perform(requestBuilder)
@@ -406,7 +406,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[gte]:1.1");
+            .param("filter", "coordinates.x(gte)1.1");
 
         mockMvc
             .perform(requestBuilder)
@@ -480,7 +480,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[lte]:1.1");
+            .param("filter", "coordinates.x(lte)1.1");
 
         mockMvc
             .perform(requestBuilder)
@@ -522,7 +522,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[interval]:1.1,2.0");
+            .param("filter", "coordinates.x(interval)1.1_2.0");
 
         mockMvc
             .perform(requestBuilder)
@@ -564,7 +564,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x[range]:1.1,2.0");
+            .param("filter", "coordinates.x(range)1.1_2.0");
 
         mockMvc
             .perform(requestBuilder)
@@ -622,7 +622,8 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "2")
-            .param("filter", "coordinates.x[gte]:1.1_coordinates.y[lt]:101");
+            .param("filter", "coordinates.x(gte)1.1")
+            .param("filter", "coordinates.y(lt)101");
 
         mockMvc
             .perform(requestBuilder)
