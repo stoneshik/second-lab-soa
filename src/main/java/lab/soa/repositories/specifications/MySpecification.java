@@ -4,101 +4,61 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import jakarta.persistence.criteria.JoinType;
+import lab.soa.bd.entities.Flat;
 
-public abstract class MySpecification<T> {
-    protected MySpecification() {}
-
-    protected Specification<T> fieldStringValueLike(
+public interface MySpecification {
+    Specification<Flat> createSpecification(
         FieldName fieldName,
         String fieldValue
-    ) {
-        if (fieldValue == null || fieldValue.isBlank()) return null;
-        String pattern = "%" + fieldValue.trim().toLowerCase() + "%";
-        return (root, query, criteriaBuilder) ->
-            criteriaBuilder.like(
-                criteriaBuilder.lower(
-                    root.get(
-                        fieldName.getFieldName()
-                    )
-                ),
-                pattern
-            );
-    }
+    );
 
-    protected Specification<T> fieldStringValueFromEntityWithJoinLike(
+    Specification<Flat> createSpecificationFromEntity(
         FieldName fieldNameEntity,
         FieldName fieldName,
         String fieldValue
-    ) {
-        if (fieldValue == null || fieldValue.isBlank()) return null;
-        String pattern = "%" + fieldValue.trim().toLowerCase() + "%";
-        return (root, query, criteriaBuilder) -> {
-            var join = root.join(
-                fieldNameEntity.getFieldName(),
-                JoinType.INNER
-            );
-            return criteriaBuilder.like(
-                criteriaBuilder.lower(
-                    join.get(
-                        fieldName.getFieldName()
-                    )
-                ),
-                pattern
-            );
-        };
-    }
+    );
 
-    protected Specification<T> fieldValueEquals(
+    Specification<Flat> createSpecification(
         FieldName fieldName,
-        String fieldValue
-    ) {
-        if (fieldValue == null) return null;
-        return (root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(
-                root.get(
-                    fieldName.getFieldName()
-                ),
-                fieldValue
-            );
-    }
+        Integer fieldValue
+    );
 
-    protected Specification<T> fieldValueFromEntityEquals(
+    Specification<Flat> createSpecificationFromEntity(
+        FieldName fieldNameEntity,
+        FieldName fieldName,
+        Integer fieldValue
+    );
+
+    Specification<Flat> createSpecification(
+        FieldName fieldName,
+        Long fieldValue
+    );
+
+    Specification<Flat> createSpecificationFromEntity(
         FieldName fieldNameEntity,
         FieldName fieldName,
         Long fieldValue
-    ) {
-        if (fieldValue == null) return null;
-        return (root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(
-                root.get(
-                    fieldNameEntity.getFieldName()
-                ).get(fieldName.getFieldName()),
-                fieldValue
-            );
-    }
+    );
 
-    protected Specification<T> fieldDatetimeValueAfterOrEq(
+    Specification<Flat> createSpecification(
         FieldName fieldName,
-        LocalDateTime from
-    ) {
-        if (from == null) return null;
-        return (root, query, criteriaBuilder) ->
-            criteriaBuilder.greaterThanOrEqualTo(
-                root.get(fieldName.getFieldName()),
-                from
-            );
-    }
+        Float fieldValue
+    );
 
-    protected Specification<T> fieldDatetimeValueBeforeOrEq(
+    Specification<Flat> createSpecificationFromEntity(
+        FieldName fieldNameEntity,
         FieldName fieldName,
-        LocalDateTime to
-    ) {
-        if (to == null) return null;
-        return (root, query, criteriaBuilder) ->
-            criteriaBuilder.lessThanOrEqualTo(
-                root.get(fieldName.getFieldName()),
-                to
-            );
-    }
+        Float fieldValue
+    );
+
+    Specification<Flat> createSpecification(
+        FieldName fieldName,
+        LocalDateTime fieldValue
+    );
+
+    Specification<Flat> createSpecificationFromEntity(
+        FieldName fieldNameEntity,
+        FieldName fieldName,
+        LocalDateTime fieldValue
+    );
 }
