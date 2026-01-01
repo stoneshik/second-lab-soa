@@ -5,150 +5,165 @@ import java.time.LocalDateTime;
 import org.springframework.data.jpa.domain.Specification;
 
 import lab.soa.domain.models.Flat;
-import lab.soa.service.filters.flat.FlatFilterField;
+import lab.soa.domain.specifications.fieldname.FlatFieldName;
 
-public class FlatGreaterThanSpecification implements FlatSpecification {
+public class FlatGreaterThanSpecification extends FlatSpecification {
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         String fieldValue
     ) {
         if (fieldValue == null) return null;
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldName.getFilterFieldName()
+                    fieldName.getFieldName()
                 ),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         String fieldValue
     ) {
         if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldNameEntity.getFilterFieldName()
-                ).get(fieldName.getFilterFieldName()),
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Integer fieldValue
     ) {
         if (fieldValue == null) return null;
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldName.getFilterFieldName()
+                    fieldName.getFieldName()
                 ),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Integer fieldValue
     ) {
         if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldNameEntity.getFilterFieldName()
-                ).get(fieldName.getFilterFieldName()),
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Long fieldValue
     ) {
         if (fieldValue == null) return null;
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldName.getFilterFieldName()
+                    fieldName.getFieldName()
                 ),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Long fieldValue
     ) {
         if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldNameEntity.getFilterFieldName()
-                ).get(fieldName.getFilterFieldName()),
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Float fieldValue
     ) {
         if (fieldValue == null) return null;
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldName.getFilterFieldName()
+                    fieldName.getFieldName()
                 ),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         Float fieldValue
     ) {
         if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldNameEntity.getFilterFieldName()
-                ).get(fieldName.getFilterFieldName()),
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         LocalDateTime fieldValue
     ) {
         if (fieldValue == null) return null;
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldName.getFilterFieldName()
+                    fieldName.getFieldName()
                 ),
                 fieldValue
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+        FlatFieldName fieldName,
         LocalDateTime fieldValue
     ) {
         if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.greaterThan(
                 root.get(
-                    fieldNameEntity.getFilterFieldName()
-                ).get(fieldName.getFilterFieldName()),
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
                 fieldValue
             );
     }

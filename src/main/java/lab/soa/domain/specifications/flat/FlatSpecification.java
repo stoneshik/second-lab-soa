@@ -5,61 +5,65 @@ import java.time.LocalDateTime;
 import org.springframework.data.jpa.domain.Specification;
 
 import lab.soa.domain.models.Flat;
-import lab.soa.service.filters.flat.FlatFilterField;
+import lab.soa.domain.specifications.fieldname.FlatFieldName;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 
-public interface FlatSpecification {
-    Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+public abstract class FlatSpecification {
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
         String fieldValue
     );
 
-    Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
         String fieldValue
     );
 
-    Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
         Integer fieldValue
     );
 
-    Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
         Integer fieldValue
     );
 
-    Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
         Long fieldValue
     );
 
-    Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
         Long fieldValue
     );
 
-    Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
         Float fieldValue
     );
 
-    Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
         Float fieldValue
     );
 
-    Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
         LocalDateTime fieldValue
     );
 
-    Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
         LocalDateTime fieldValue
     );
+
+    protected void checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+        FlatFieldName flatNestedEntityFieldName
+    ) {
+        if (flatNestedEntityFieldName == null) {
+            throw new IncorrectParamException("Null nested entity field name");
+        }
+    }
 }

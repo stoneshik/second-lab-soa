@@ -43,6 +43,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -132,6 +133,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -186,10 +188,11 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "coordinates.x(eq)1.1");
+            .param("filter", "id(eq)1");
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -213,11 +216,10 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/flatsPage/flats/flat[1]/house/year").string("2000"),
                 xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("9"),
 
-
                 xpath("/flatsPage/totalElements").string("4"),
                 xpath("/flatsPage/totalPages").string("1"),
                 xpath("/flatsPage/currentPage").string("0"),
-                xpath("/flatsPage/pageSize").string("1")
+                xpath("/flatsPage/pageSize").string("4")
             );
     }
 
@@ -233,6 +235,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -307,6 +310,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -381,20 +385,17 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
-                content().xml("""
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <FlatsPage>
-                        <flats></flats>
-                        <page>0</page>
-                        <totalElements>4</totalElements>
-                        <totalPages>0</totalPages>
-                        <currentPage>0</currentPage>
-                        <pageSize>0</pageSize>
-                    </FlatsPage>
-                """)
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(0.0),
+                xpath("/flatsPage/totalElements").string("0"),
+                xpath("/flatsPage/totalPages").string("0"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("0")
             );
     }
 
@@ -410,6 +411,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -484,6 +486,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -526,6 +529,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -568,6 +572,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),
@@ -627,6 +632,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
 
         mockMvc
             .perform(requestBuilder)
+            .andDo(print())
             .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_XML),

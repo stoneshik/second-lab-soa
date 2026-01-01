@@ -1,12 +1,14 @@
 package lab.soa.utils.parsers;
 
+import java.time.LocalDateTime;
+
 import lab.soa.utils.checkers.value.LocalDatetimeValueChecker;
 
-public class LocalDatetimeParserReturnString extends Parser<String> {
+public class LocalDatetimeParser extends Parser<LocalDateTime> {
     private static final LocalDatetimeValueChecker VALUE_CHECKER = new LocalDatetimeValueChecker();
 
-    public String parse(String value) {
+    public LocalDateTime parse(String value) {
         checkValueAndThrowExceptionIfIncorrect(VALUE_CHECKER, value);
-        return value;
+        return LocalDateTime.parse(value);
     }
 }

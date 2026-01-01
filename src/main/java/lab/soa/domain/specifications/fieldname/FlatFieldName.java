@@ -1,0 +1,54 @@
+package lab.soa.domain.specifications.fieldname;
+
+public enum FlatFieldName implements FieldName {
+    ID("id", TypeSpecification.ROOT_ENTITY, null),
+    NAME("name", TypeSpecification.ROOT_ENTITY, null),
+
+    COORDINATES("coordinates", null, null),
+    COORDINATES_ID("id", TypeSpecification.NESTED_ENTITY, COORDINATES),
+    COORDINATES_X("x", TypeSpecification.NESTED_ENTITY, COORDINATES),
+    COORDINATES_Y("y", TypeSpecification.NESTED_ENTITY, COORDINATES),
+
+    CREATION_DATE("creation_date", TypeSpecification.ROOT_ENTITY, null),
+    AREA("area", TypeSpecification.ROOT_ENTITY, null),
+    NUMBER_OF_ROOMS("number_of_rooms", TypeSpecification.ROOT_ENTITY, null),
+    HEIGHT("height", TypeSpecification.ROOT_ENTITY, null),
+    VIEW("view", TypeSpecification.ROOT_ENTITY, null),
+    TRANSPORT("transport", TypeSpecification.ROOT_ENTITY, null),
+
+    HOUSE("houses", null, null),
+    HOUSE_ID("id", TypeSpecification.NESTED_ENTITY, HOUSE),
+    HOUSE_NAME("name", TypeSpecification.NESTED_ENTITY, HOUSE),
+    HOUSE_YEAR("year", TypeSpecification.NESTED_ENTITY, HOUSE),
+    HOUSE_NUMBER_OF_FLATS_ON_FLOOR(
+        "number_of_flats_on_floor",
+        TypeSpecification.NESTED_ENTITY,
+        HOUSE
+    ),
+    ;
+
+    private final String fieldName;
+    private final TypeSpecification typeSpecification;
+    private final FlatFieldName flatNestedEntityFieldName;
+
+    private FlatFieldName(
+        String fieldName,
+        TypeSpecification typeSpecification,
+        FlatFieldName flatFieldName) {
+        this.fieldName = fieldName;
+        this.typeSpecification = typeSpecification;
+        this.flatNestedEntityFieldName = flatFieldName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public TypeSpecification getTypeSpecification() {
+        return typeSpecification;
+    }
+
+    public FlatFieldName getFlatNestedEntityFieldName() {
+        return flatNestedEntityFieldName;
+    }
+}

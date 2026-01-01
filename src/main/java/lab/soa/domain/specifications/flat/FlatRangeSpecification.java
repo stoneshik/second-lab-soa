@@ -3,140 +3,167 @@ package lab.soa.domain.specifications.flat;
 import org.springframework.data.jpa.domain.Specification;
 
 import lab.soa.domain.models.Flat;
-import lab.soa.service.filters.flat.FlatFilterField;
+import lab.soa.domain.specifications.fieldname.FlatFieldName;
 
-public class FlatRangeSpecification implements FlatIntervalAndRangeSpecification {
+public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
-        Integer fieldValue
+        FlatFieldName fieldName,
+        Integer fieldMinValue,
+        Integer fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMaxValue
                 )
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
-        Integer fieldValue
+        FlatFieldName fieldName,
+        Integer fieldMinValue,
+        Integer fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMaxValue
                 )
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
-        Long fieldValue
+        FlatFieldName fieldName,
+        Long fieldMinValue,
+        Long fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMaxValue
                 )
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
-        Long fieldValue
+        FlatFieldName fieldName,
+        Long fieldMinValue,
+        Long fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMaxValue
                 )
             );
     }
 
     public Specification<Flat> createSpecification(
-        FlatFilterField fieldName,
-        Float fieldValue
+        FlatFieldName fieldName,
+        Float fieldMinValue,
+        Float fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldName.getFilterFieldName()
+                        fieldName.getFieldName()
                     ),
-                    fieldValue
+                    fieldMaxValue
                 )
             );
     }
 
     public Specification<Flat> createSpecificationFromEntity(
-        FlatFilterField fieldNameEntity,
-        FlatFilterField fieldName,
-        Float fieldValue
+        FlatFieldName fieldName,
+        Float fieldMinValue,
+        Float fieldMaxValue
     ) {
-        if (fieldValue == null) return null;
+        if (fieldMinValue == null || fieldMaxValue == null) {
+            return null;
+        }
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
                 criteriaBuilder.lessThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMinValue
                 ),
                 criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
-                        fieldNameEntity.getFilterFieldName()
-                    ).get(fieldName.getFilterFieldName()),
-                    fieldValue
+                        flatNestedEntityFieldName.getFieldName()
+                    ).get(fieldName.getFieldName()),
+                    fieldMaxValue
                 )
             );
     }
