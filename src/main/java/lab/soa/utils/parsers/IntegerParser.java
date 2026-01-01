@@ -1,10 +1,12 @@
 package lab.soa.utils.parsers;
 
-public class IntegerParser implements Parser<Integer> {
-    private static final FilterIntegerValueChecker
+import lab.soa.utils.checkers.value.IntegerValueChecker;
+
+public class IntegerParser extends Parser<Integer> {
+    private static final IntegerValueChecker VALUE_CHECKER = new IntegerValueChecker();
 
     public Integer parse(String value) {
-        return value;
+        checkValueAndThrowExceptionIfIncorrect(VALUE_CHECKER, value);
+        return Integer.parseInt(value);
     }
-
 }
