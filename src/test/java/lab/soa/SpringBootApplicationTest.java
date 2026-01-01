@@ -14,11 +14,11 @@ import org.testcontainers.junit.jupiter.Container;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lab.soa.bd.entities.Coordinates;
-import lab.soa.bd.entities.Flat;
-import lab.soa.bd.entities.House;
-import lab.soa.bd.entities.Transport;
-import lab.soa.bd.entities.View;
+import lab.soa.domain.models.Coordinates;
+import lab.soa.domain.models.Flat;
+import lab.soa.domain.models.House;
+import lab.soa.domain.models.Transport;
+import lab.soa.domain.models.View;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
