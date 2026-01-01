@@ -1,4 +1,4 @@
-package lab.soa.service.house;
+package lab.soa.service.services.house;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

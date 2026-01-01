@@ -1,4 +1,4 @@
-package lab.soa.service.flat;
+package lab.soa.service.services.flat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import lab.soa.domain.models.Flat;
 import lab.soa.domain.repositories.flat.FlatRepository;
 import lab.soa.domain.repositories.flat.HeightGroupProjection;
-import lab.soa.exceptions.IncorrectParamException;
-import lab.soa.exceptions.ObjectNotFoundException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.ObjectNotFoundException;
 import lab.soa.presentation.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.presentation.dto.requests.flat.FlatRequestUpdateDto;
 import lab.soa.presentation.dto.responses.LongValueResponseDto;
@@ -25,10 +25,10 @@ import lab.soa.presentation.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.presentation.dto.responses.flat.FlatResponseDto;
 import lab.soa.presentation.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.service.filters.flat.FlatFilterParam;
-import lab.soa.service.flat.factories.FlatGetAllMethodSpecificationFactory;
 import lab.soa.service.mappers.flat.FlatToDtoFromEntityMapper;
 import lab.soa.service.mappers.flat.FlatToEntityFromDtoCreateRequest;
 import lab.soa.service.mappers.flat.FlatToEntityFromDtoUpdateRequest;
+import lab.soa.service.services.flat.factories.FlatGetAllMethodSpecificationFactory;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -53,7 +53,9 @@ public class FlatService {
         List<FlatFilterParam> filterParams,
         Pageable pageable
     ) {
-        Specification<Flat> specification = FlatGetAllMethodSpecificationFactory.create(filterParams);
+        FlatGetAllMethodSpecificationFactory flatGetAllMethodSpecificationFactory =
+            new FlatGetAllMethodSpecificationFactory();
+        Specification<Flat> specification = flatGetAllMethodSpecificationFactory.create(filterParams);
         Page<Flat> page = flatRepository.findAll(specification, pageable);
         List<FlatResponseDto> flatResponseDtos = new ArrayList<>();
 

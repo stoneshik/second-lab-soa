@@ -24,7 +24,7 @@ import lab.soa.presentation.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.presentation.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.presentation.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.service.filters.flat.FlatFilterParam;
-import lab.soa.service.flat.FlatService;
+import lab.soa.service.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

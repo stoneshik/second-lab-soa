@@ -16,9 +16,9 @@ import org.springframework.web.client.HttpServerErrorException.InternalServerErr
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import lab.soa.exceptions.IncorrectDtoInRequestException;
-import lab.soa.exceptions.IncorrectParamException;
-import lab.soa.exceptions.ObjectNotFoundException;
+import lab.soa.infrastructure.exceptions.IncorrectDtoInRequestException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.ObjectNotFoundException;
 import lab.soa.presentation.dto.responses.ErrorMessageResponseDto;
 import lab.soa.presentation.dto.responses.ErrorMessagesResponseDto;
 

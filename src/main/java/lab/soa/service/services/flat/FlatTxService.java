@@ -1,11 +1,11 @@
-package lab.soa.service.flat;
+package lab.soa.service.services.flat;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lab.soa.domain.models.Flat;
 import lab.soa.domain.repositories.flat.FlatRepository;
-import lab.soa.exceptions.ObjectNotFoundException;
+import lab.soa.infrastructure.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service

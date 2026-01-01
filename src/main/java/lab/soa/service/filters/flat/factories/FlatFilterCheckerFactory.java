@@ -2,7 +2,7 @@ package lab.soa.service.filters.flat.factories;
 
 import java.util.Map;
 
-import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.FlatFilterField;
 import lab.soa.utils.checkers.value.FilterFloatValueChecker;
 import lab.soa.utils.checkers.value.FilterIntegerValueChecker;

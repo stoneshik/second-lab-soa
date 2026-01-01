@@ -9,8 +9,8 @@ import lab.soa.domain.models.House;
 import lab.soa.presentation.dto.requests.coordinates.CoordinatesCreateRequestDto;
 import lab.soa.presentation.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.presentation.dto.requests.house.HouseCreateRequestDto;
-import lab.soa.service.coordinates.CoordinatesService;
-import lab.soa.service.house.HouseService;
+import lab.soa.service.services.coordinates.CoordinatesService;
+import lab.soa.service.services.house.HouseService;
 import lombok.RequiredArgsConstructor;
 
 @Service

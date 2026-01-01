@@ -9,7 +9,7 @@ import lab.soa.domain.specifications.flat.FlatLessThanOrEqualsSpecification;
 import lab.soa.domain.specifications.flat.FlatLessThanSpecification;
 import lab.soa.domain.specifications.flat.FlatNotEqualsSpecification;
 import lab.soa.domain.specifications.flat.FlatSpecification;
-import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.FlatFilterOperation;
 
 public class FlatSpecificationFactory {

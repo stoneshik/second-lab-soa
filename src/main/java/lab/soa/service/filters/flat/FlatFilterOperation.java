@@ -1,6 +1,6 @@
 package lab.soa.service.filters.flat;
 
-import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.FilterOperation;
 
 public enum FlatFilterOperation implements FilterOperation {

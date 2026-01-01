@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.factories.FlatFilterCheckerFactory;
 import lab.soa.utils.checkers.value.FilterValueChecker;
 

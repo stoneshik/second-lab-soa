@@ -5,7 +5,7 @@ import java.util.Map;
 import lab.soa.domain.specifications.flat.FlatIntervalAndRangeSpecification;
 import lab.soa.domain.specifications.flat.FlatIntervalSpecification;
 import lab.soa.domain.specifications.flat.FlatRangeSpecification;
-import lab.soa.exceptions.IncorrectParamException;
+import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.FlatFilterOperation;
 
 public class FlatIntervalAndRangeSpecificationFactory {

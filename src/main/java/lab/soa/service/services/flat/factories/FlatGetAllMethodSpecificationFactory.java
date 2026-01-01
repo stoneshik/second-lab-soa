@@ -1,4 +1,4 @@
-package lab.soa.service.flat.factories;
+package lab.soa.service.services.flat.factories;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ public class FlatGetAllMethodSpecificationFactory {
                 FlatIntervalAndRangeSpecification flatIntervalAndRangeSpecification =
                     flatIntervalAndRangeSpecificationFactory.create(filterOperation);
                 
-                specification.and(flatIntervalAndRangeSpecificationFactory.create(filterOperation));
+                //specification.and(flatIntervalAndRangeSpecificationFactory.create(filterOperation));
                 continue;
             }
-            specification.and();
+            //specification.and();
         }
         return specification;
     }

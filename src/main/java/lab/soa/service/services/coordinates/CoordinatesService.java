@@ -1,4 +1,4 @@
-package lab.soa.service.coordinates;
+package lab.soa.service.services.coordinates;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
