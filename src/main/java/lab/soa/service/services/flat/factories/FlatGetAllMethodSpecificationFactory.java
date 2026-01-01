@@ -23,10 +23,10 @@ public class FlatGetAllMethodSpecificationFactory {
                 FlatIntervalAndRangeSpecification flatIntervalAndRangeSpecification =
                     flatIntervalAndRangeSpecificationFactory.create(filterOperation);
                 
-                //specification.and(flatIntervalAndRangeSpecificationFactory.create(filterOperation));
+                specification.and(flatIntervalAndRangeSpecificationFactory.create(filterOperation));
                 continue;
             }
-            //specification.and();
+            specification.and();
         }
         return specification;
     }

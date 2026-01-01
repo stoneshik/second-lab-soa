@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.factories.FlatFilterCheckerFactory;
-import lab.soa.utils.checkers.value.FilterValueChecker;
+import lab.soa.utils.checkers.value.ValueChecker;
 
 @Component
 public class StringToFlatFilterParamConverter implements Converter<String, FlatFilterParam> {
@@ -29,7 +29,7 @@ public class StringToFlatFilterParamConverter implements Converter<String, FlatF
         String valueRawString = matcher.group(3);
 
         FlatFilterCheckerFactory flatFilterCheckerFactory = new FlatFilterCheckerFactory();
-        FilterValueChecker filterValueChecker = flatFilterCheckerFactory.create(
+        ValueChecker filterValueChecker = flatFilterCheckerFactory.create(
             filterField
         );
         String filterMinValue = null;

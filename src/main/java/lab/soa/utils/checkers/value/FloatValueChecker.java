@@ -2,7 +2,7 @@ package lab.soa.utils.checkers.value;
 
 import java.util.regex.Pattern;
 
-public class FilterFloatValueChecker implements FilterValueChecker {
+public class FloatValueChecker implements ValueChecker {
     private static final Pattern FLOAT_PATTERN = Pattern.compile("-?\\d+\\.\\d+");
 
     public boolean isIncorrectValue(String rawStringValue) {
