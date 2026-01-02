@@ -1,5 +1,7 @@
 package lab.soa;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import lab.soa.domain.models.View;
 @SpringBootTest
 @AutoConfigureMockMvc
 abstract class SpringBootApplicationTest {
+    private static LocalDateTime firstFlatCreationDate;
+
     @Container
     @ServiceConnection
     static final PostgreSQLContainer<?> postgresSqlContainer =
@@ -172,10 +176,16 @@ abstract class SpringBootApplicationTest {
         entityManager.persist(flat2);
         entityManager.persist(flat3);
         entityManager.persist(flat4);
+
+        firstFlatCreationDate = flat1.getCreationDate();
     }
 
     private void forceWritingToDb() {
         entityManager.flush();
         entityManager.clear();
+    }
+
+    public static LocalDateTime getFirstFlatCreationDate() {
+        return firstFlatCreationDate;
     }
 }

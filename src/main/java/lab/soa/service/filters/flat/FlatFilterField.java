@@ -6,7 +6,7 @@ import lab.soa.service.filters.FilterField;
 public enum FlatFilterField implements FilterField {
     ID("id"),
     NAME("name"),
-    COORDINATES_ID("coordinates.is"),
+    COORDINATES_ID("coordinates.id"),
     COORDINATES_X("coordinates.x"),
     COORDINATES_Y("coordinates.y"),
     CREATION_DATE("creationDate"),

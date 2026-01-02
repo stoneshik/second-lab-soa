@@ -63,7 +63,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorMessageResponseDto> handleException(IllegalArgumentException e) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
-            .message("Invalid argument")
+            .message(e.getMessage())
             .time(LocalDateTime.now())
             .build();
         return ResponseEntity

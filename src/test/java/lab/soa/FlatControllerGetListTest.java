@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -676,6 +678,260 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/flatsPage/totalPages").string("1"),
                 xpath("/flatsPage/currentPage").string("0"),
                 xpath("/flatsPage/pageSize").string("2")
+            );
+    }
+
+    @Test
+    void getListFlatsByFiltersEquals_ReturnsResponseWithStatusBadRequest() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "coordinates(eq)1.1");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/error").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/time").exists()
+            );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsId_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "id(eq)1");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsCoordinatesId_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "coordinates.id(eq)1");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsCoordinatesX_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "coordinates.x(eq)1.1");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsCoordinatesY_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "coordinates.y(eq)123");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsCreationDate_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        LocalDateTime firstFlatCreationDate = SpringBootApplicationTest.getFirstFlatCreationDate();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "creationDate(eq)" + firstFlatCreationDate.toString());
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsArea_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "area(eq)1");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsNumberOfRooms_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "numberOfRooms(eq)1");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsHeight_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "height(eq)10");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsView_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "view(eq)STREET");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsTransport_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "transport(eq)FEW");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsHouseId_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "house.name(eq)First House");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsHouseYear_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "house.year(eq)2000");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsNumberOfFlatsOnFloor_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "house.numberOfFlatsOnFloor(eq)9");
+
+        performAndCheckGetListFlatsRequestByFilterEquals(
+            requestBuilder
+        );
+    }
+
+    private void performAndCheckGetListFlatsRequestByFilterEquals(
+        MockHttpServletRequestBuilder requestBuilder
+    ) throws Exception {
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(1.0),
+
+                xpath("/flatsPage/flats/flat[1]/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/name").string("First Flat"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/x").number(1.1),
+                xpath("/flatsPage/flats/flat[1]/coordinates/y").string("123"),
+                xpath("/flatsPage/flats/flat[1]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[1]/area").string("1"),
+                xpath("/flatsPage/flats/flat[1]/numberOfRooms").string("1"),
+                xpath("/flatsPage/flats/flat[1]/height").string("10"),
+                xpath("/flatsPage/flats/flat[1]/view").string("STREET"),
+                xpath("/flatsPage/flats/flat[1]/transport").string("FEW"),
+                xpath("/flatsPage/flats/flat[1]/house/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/house/name").string("First House"),
+                xpath("/flatsPage/flats/flat[1]/house/year").string("2000"),
+                xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("9"),
+
+                xpath("/flatsPage/totalElements").string("1"),
+                xpath("/flatsPage/totalPages").string("1"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("1")
             );
     }
 }

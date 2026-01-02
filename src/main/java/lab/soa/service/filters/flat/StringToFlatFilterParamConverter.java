@@ -13,7 +13,7 @@ import lab.soa.utils.checkers.value.ValueChecker;
 @Component
 public class StringToFlatFilterParamConverter implements Converter<String, FlatFilterParam> {
     private static final Pattern FILTER_PATTERN =
-        Pattern.compile("^([a-z.]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$");
+        Pattern.compile("^([a-zA-Z.]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\d+(\\.\\d+)?");
 
     @Override

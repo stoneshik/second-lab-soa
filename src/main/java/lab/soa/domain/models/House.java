@@ -47,6 +47,6 @@ public class House {
 
     @ToString.Include
     @Positive
-    @Column(name = "numberOfFlatsOnFloor", nullable = true)
+    @Column(name = "number_of_flats_on_floor", nullable = true)
     private Integer numberOfFlatsOnFloor;
 }
