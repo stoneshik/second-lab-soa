@@ -119,8 +119,8 @@ abstract class SpringBootApplicationTest {
             .build();
         House house3 = House.builder()
             .name("Third House")
-            .year(2002)
-            .numberOfFlatsOnFloor(8)
+            .year(null)
+            .numberOfFlatsOnFloor(null)
             .build();
         House house4 = House.builder()
             .name("Fourth House")
@@ -155,10 +155,10 @@ abstract class SpringBootApplicationTest {
         Flat flat3 = Flat.builder()
             .name("Third Flat")
             .coordinates(coordinates3)
-            .area(3)
+            .area(null)
             .numberOfRooms(3)
             .height(3)
-            .view(View.YARD)
+            .view(null)
             .transport(Transport.NONE)
             .house(house3)
             .build();
@@ -169,7 +169,7 @@ abstract class SpringBootApplicationTest {
             .numberOfRooms(4)
             .height(3)
             .view(View.GOOD)
-            .transport(Transport.NORMAL)
+            .transport(null)
             .house(house4)
             .build();
         entityManager.persist(flat1);
