@@ -17,18 +17,26 @@ public class FlatGetAllMethodSpecificationFactory {
         if (filterParams == null) {
             return Specification.unrestricted();
         }
-        Specification<Flat> specification = Specification.unrestricted();
+        Specification<Flat> globalSpecification = null;
         FlatSpecificationFactory flatSpecificationFactory = new FlatSpecificationFactory();
         FlatIntervalAndRangeSpecificationFactory flatIntervalAndRangeSpecificationFactory =
             new FlatIntervalAndRangeSpecificationFactory();
+        FlatSpecificationServiceFactory flatSpecificationServiceFactory =
+            new FlatSpecificationServiceFactory();
         for (FlatFilterParam flatFilterParam: filterParams) {
             FlatFilterOperation filterOperation = flatFilterParam.getOperation();
             if (filterOperation.isRangeOrInterval()) {
                 FlatIntervalAndRangeSpecification flatIntervalAndRangeSpecification =
                     flatIntervalAndRangeSpecificationFactory.create(filterOperation);
-                FlatSpecificationServiceFactory flatSpecificationServiceFactory =
-                    new FlatSpecificationServiceFactory();
-                specification.and(
+                Specification<Flat> localSpecification = flatSpecificationServiceFactory.create(
+                    flatFilterParam,
+                    flatIntervalAndRangeSpecification
+                );
+                if (globalSpecification == null) {
+                    globalSpecification = localSpecification;
+                    continue;
+                }
+                globalSpecification = globalSpecification.and(
                     flatSpecificationServiceFactory.create(
                         flatFilterParam,
                         flatIntervalAndRangeSpecification
@@ -37,15 +45,18 @@ public class FlatGetAllMethodSpecificationFactory {
                 continue;
             }
             FlatSpecification flatSpecification = flatSpecificationFactory.create(filterOperation);
-            FlatSpecificationServiceFactory flatSpecificationServiceFactory =
-                    new FlatSpecificationServiceFactory();
-            specification.and(
-                flatSpecificationServiceFactory.create(
-                    flatFilterParam,
-                    flatSpecification
-                )
+            Specification<Flat> localSpecification = flatSpecificationServiceFactory.create(
+                flatFilterParam,
+                flatSpecification
+            );
+            if (globalSpecification == null) {
+                globalSpecification = localSpecification;
+                continue;
+            }
+            globalSpecification = globalSpecification.and(
+                localSpecification
             );
         }
-        return specification;
+        return globalSpecification;
     }
 }

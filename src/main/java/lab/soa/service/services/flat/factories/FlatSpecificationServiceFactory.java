@@ -163,7 +163,7 @@ public class FlatSpecificationServiceFactory {
     ) {
         FlatFilterField flatFilterField = flatFilterParam.getFieldFilter();
         String minValueString = flatFilterParam.getMinValue();
-        String maxValueString = flatFilterParam.getMinValue();
+        String maxValueString = flatFilterParam.getMaxValue();
         FlatFieldName flatFieldName = mapFilterFieldToFlatFieldName.get(flatFilterField);
         TypeSpecification typeSpecification = flatFieldName.getTypeSpecification();
         if (typeSpecification == null) {

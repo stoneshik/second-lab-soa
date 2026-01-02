@@ -16,13 +16,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -45,13 +45,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
@@ -70,13 +70,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -99,13 +99,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
@@ -124,13 +124,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -153,13 +153,13 @@ public class FlatRangeSpecification extends FlatIntervalAndRangeSpecification {
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThanOrEqualTo(
+                criteriaBuilder.greaterThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThanOrEqualTo(
+                criteriaBuilder.lessThanOrEqualTo(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),

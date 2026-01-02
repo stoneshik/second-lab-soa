@@ -16,13 +16,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -45,13 +45,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
@@ -70,13 +70,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -99,13 +99,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
@@ -124,13 +124,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         }
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         fieldName.getFieldName()
                     ),
@@ -153,13 +153,13 @@ public class FlatIntervalSpecification extends FlatIntervalAndRangeSpecification
         );
         return (root, query, criteriaBuilder) ->
             criteriaBuilder.and(
-                criteriaBuilder.lessThan(
+                criteriaBuilder.greaterThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
                     fieldMinValue
                 ),
-                criteriaBuilder.greaterThan(
+                criteriaBuilder.lessThan(
                     root.get(
                         flatNestedEntityFieldName.getFieldName()
                     ).get(fieldName.getFieldName()),
