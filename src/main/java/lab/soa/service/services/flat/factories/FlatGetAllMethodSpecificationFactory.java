@@ -13,50 +13,71 @@ import lab.soa.service.filters.flat.FlatFilterOperation;
 import lab.soa.service.filters.flat.FlatFilterParam;
 
 public class FlatGetAllMethodSpecificationFactory {
+    private static final FlatSpecificationFactory FLAT_SPECIFICATION_FACTORY =
+        new FlatSpecificationFactory();
+    private static final FlatIntervalAndRangeSpecificationFactory FLAT_INTERVAL_AND_RANGE_SPECIFICATION_FACTORY =
+            new FlatIntervalAndRangeSpecificationFactory();
+    private static final FlatSpecificationServiceFactory FLAT_SPECIFICATION_SERVICE_FACTORY =
+            new FlatSpecificationServiceFactory();
+
     public Specification<Flat> create(List<FlatFilterParam> filterParams) {
         if (filterParams == null) {
             return Specification.unrestricted();
         }
         Specification<Flat> globalSpecification = null;
-        FlatSpecificationFactory flatSpecificationFactory = new FlatSpecificationFactory();
-        FlatIntervalAndRangeSpecificationFactory flatIntervalAndRangeSpecificationFactory =
-            new FlatIntervalAndRangeSpecificationFactory();
-        FlatSpecificationServiceFactory flatSpecificationServiceFactory =
-            new FlatSpecificationServiceFactory();
         for (FlatFilterParam flatFilterParam: filterParams) {
             FlatFilterOperation filterOperation = flatFilterParam.getOperation();
             if (filterOperation.isRangeOrInterval()) {
-                FlatIntervalAndRangeSpecification flatIntervalAndRangeSpecification =
-                    flatIntervalAndRangeSpecificationFactory.create(filterOperation);
-                Specification<Flat> localSpecification = flatSpecificationServiceFactory.create(
+                globalSpecification = createIntervalOrRangeSpecification(
+                    globalSpecification,
                     flatFilterParam,
-                    flatIntervalAndRangeSpecification
-                );
-                if (globalSpecification == null) {
-                    globalSpecification = localSpecification;
-                    continue;
-                }
-                globalSpecification = globalSpecification.and(
-                    flatSpecificationServiceFactory.create(
-                        flatFilterParam,
-                        flatIntervalAndRangeSpecification
-                    )
+                    filterOperation
                 );
                 continue;
             }
-            FlatSpecification flatSpecification = flatSpecificationFactory.create(filterOperation);
-            Specification<Flat> localSpecification = flatSpecificationServiceFactory.create(
+            globalSpecification = createFlatSpecification(
+                globalSpecification,
                 flatFilterParam,
-                flatSpecification
-            );
-            if (globalSpecification == null) {
-                globalSpecification = localSpecification;
-                continue;
-            }
-            globalSpecification = globalSpecification.and(
-                localSpecification
+                filterOperation
             );
         }
         return globalSpecification;
+    }
+
+    private Specification<Flat> createIntervalOrRangeSpecification(
+        Specification<Flat> globalSpecification,
+        FlatFilterParam flatFilterParam,
+        FlatFilterOperation filterOperation
+    ) {
+        FlatIntervalAndRangeSpecification flatIntervalAndRangeSpecification =
+                    FLAT_INTERVAL_AND_RANGE_SPECIFICATION_FACTORY.create(filterOperation);
+        Specification<Flat> localSpecification = FLAT_SPECIFICATION_SERVICE_FACTORY.create(
+            flatFilterParam,
+            flatIntervalAndRangeSpecification
+        );
+        if (globalSpecification == null) {
+            return localSpecification;
+        }
+        return globalSpecification.and(
+            localSpecification
+        );
+    }
+
+    private Specification<Flat> createFlatSpecification(
+        Specification<Flat> globalSpecification,
+        FlatFilterParam flatFilterParam,
+        FlatFilterOperation filterOperation
+    ) {
+        FlatSpecification flatSpecification = FLAT_SPECIFICATION_FACTORY.create(filterOperation);
+        Specification<Flat> localSpecification = FLAT_SPECIFICATION_SERVICE_FACTORY.create(
+            flatFilterParam,
+            flatSpecification
+        );
+        if (globalSpecification == null) {
+            return localSpecification;
+        }
+        return globalSpecification.and(
+            localSpecification
+        );
     }
 }
