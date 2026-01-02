@@ -699,6 +699,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
                 xpath("/error/time").exists()
             );
     }

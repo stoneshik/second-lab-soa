@@ -101,8 +101,9 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 status().isUnprocessableEntity(),
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
-                xpath("/error/messages").exists(),
-                xpath("/error/messages/message").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
+                xpath("/error/violations/violation").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -153,6 +154,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -244,8 +246,9 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 status().isUnprocessableEntity(),
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
-                xpath("/error/messages").exists(),
-                xpath("/error/messages/message").exists(),
+                xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
+                xpath("/error/violations/violation").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -287,6 +290,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -403,6 +407,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
                 xpath("/error/time").exists()
             );
     }
@@ -423,6 +428,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 content().contentType(MediaType.APPLICATION_XML),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
+                xpath("/error/violations").exists(),
                 xpath("/error/time").exists()
             );
     }

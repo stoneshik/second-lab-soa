@@ -57,6 +57,17 @@ paths:
                   message:
                     type: string
                     example: Invalid param(s) supplied
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -73,6 +84,17 @@ paths:
                   message:
                     type: string
                     example: Not found suitable flat
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -89,6 +111,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -169,6 +202,17 @@ paths:
                   message:
                     type: string
                     example: Invalid param(s) supplied
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -185,6 +229,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time

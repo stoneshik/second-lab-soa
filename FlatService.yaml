@@ -35,15 +35,18 @@ paths:
                 xml:
                   name: error
                 properties:
-                  messages:
+                  message:
+                    type: string
+                    example: Unprocessable entity
+                  violations:
                     type: array
                     items:
                       type: string
                       example: Flat field area equals or less than 0
                       xml:
-                        name: message
+                        name: violation
                     xml:
-                      name: messages
+                      name: violations
                       wrapped: true
                   time:
                     type: string
@@ -61,6 +64,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -173,6 +187,17 @@ paths:
                   message:
                     type: string
                     example: Invalid param(s) supplied
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -189,6 +214,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -254,6 +290,17 @@ paths:
                   message:
                     type: string
                     example: At least one parameter was not passed
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -270,6 +317,17 @@ paths:
                   message:
                     type: string
                     example: Not found flat by filter param
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -286,6 +344,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -335,6 +404,17 @@ paths:
                   message:
                     type: string
                     example: Invalid param supplied
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -351,6 +431,17 @@ paths:
                   message:
                     type: string
                     example: "Not found flat by id: 1"
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -367,6 +458,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -416,15 +518,18 @@ paths:
                 xml:
                   name: error
                 properties:
-                  messages:
+                  message:
+                    type: string
+                    example: Unprocessable entity
+                  violations:
                     type: array
                     items:
                       type: string
                       example: Flat field area equals or less than 0
                       xml:
-                        name: message
+                        name: violation
                     xml:
-                      name: messages
+                      name: violations
                       wrapped: true
                   time:
                     type: string
@@ -442,6 +547,17 @@ paths:
                   message:
                     type: string
                     example: "Not found flat by id: 1"
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -458,6 +574,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -499,6 +626,17 @@ paths:
                   message:
                     type: string
                     example: "Not found flat by id: 1"
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -515,6 +653,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -562,6 +711,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -626,6 +786,17 @@ paths:
                   message:
                     type: string
                     example: Internal server error
+                  violations:
+                    type: array
+                    items:
+                      type: string
+                      example: Flat field area equals or less than 0
+                      xml:
+                        name: violation
+                    xml:
+                      name: violations
+                      wrapped: true
+                    default: []
                   time:
                     type: string
                     format: date-time
@@ -826,10 +997,22 @@ components:
         message:
           type: string
           example: Not Found
+        violations:
+          type: array
+          items:
+            type: string
+            example: Flat field area equals or less than 0
+            xml:
+              name: violation
+          xml:
+            name: violations
+            wrapped: true
+          default: []
         time:
           type: string
           format: date-time
           example: 2024-11-10T00:10:12Z
       required:
         - message
+        - violations
         - time

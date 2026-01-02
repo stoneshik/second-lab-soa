@@ -20,7 +20,6 @@ import lab.soa.infrastructure.exceptions.IncorrectDtoInRequestException;
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.infrastructure.exceptions.ObjectNotFoundException;
 import lab.soa.presentation.dto.responses.ErrorMessageResponseDto;
-import lab.soa.presentation.dto.responses.ErrorMessagesResponseDto;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
@@ -85,14 +84,14 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorMessagesResponseDto> handleException(ConstraintViolationException e) {
+    public ResponseEntity<ErrorMessageResponseDto> handleException(ConstraintViolationException e) {
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
         List<String> errors = new ArrayList<>();
         violations.forEach(violation ->
             errors.add(violation.getMessage())
         );
-        ErrorMessagesResponseDto dto = ErrorMessagesResponseDto.builder()
-            .messages(errors)
+        ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .violations(errors)
             .time(LocalDateTime.now())
             .build();
         return ResponseEntity
