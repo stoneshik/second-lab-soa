@@ -886,18 +886,198 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
     }
 
     @Test
-    void getListFlatsByFilterEqualsNumberOfFlatsOnFloor_ReturnsResponseWithStatusOk() throws Exception {
+    void getListFlatsByFilterEqualsPrice_ReturnsResponseWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/api/v1/flats")
             .param("sort", "id,asc")
             .param("page", "0")
             .param("size", "4")
-            .param("filter", "house.numberOfFlatsOnFloor(eq)9");
+            .param("filter", "price(eq)100.01");
 
         performAndCheckGetListFlatsRequestByFilterEquals(
             requestBuilder
         );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsBalconyType_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "balconyType(eq)WITH_BALCONY");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(1.0),
+
+                xpath("/flatsPage/flats/flat[1]/id").string("2"),
+                xpath("/flatsPage/flats/flat[1]/name").string("Second Flat"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/id").string("2"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/x").number(2.0),
+                xpath("/flatsPage/flats/flat[1]/coordinates/y").string("100"),
+                xpath("/flatsPage/flats/flat[1]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[1]/area").string("2"),
+                xpath("/flatsPage/flats/flat[1]/numberOfRooms").string("2"),
+                xpath("/flatsPage/flats/flat[1]/height").string("2"),
+                xpath("/flatsPage/flats/flat[1]/view").string("BAD"),
+                xpath("/flatsPage/flats/flat[1]/transport").string("ENOUGH"),
+                xpath("/flatsPage/flats/flat[1]/house/id").string("2"),
+                xpath("/flatsPage/flats/flat[1]/house/name").string("Second House"),
+                xpath("/flatsPage/flats/flat[1]/house/year").string("2001"),
+                xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("12"),
+                xpath("/flatsPage/flats/flat[1]/price").string("12345678.00"),
+                xpath("/flatsPage/flats/flat[1]/balconyType").string("WITH_BALCONY"),
+                xpath("/flatsPage/flats/flat[1]/walkingMinutesToMetro").string("1000"),
+                xpath("/flatsPage/flats/flat[1]/transportMinutesToMetro").string("100"),
+
+                xpath("/flatsPage/totalElements").string("1"),
+                xpath("/flatsPage/totalPages").string("1"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("1")
+            );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsWalkingMinutesToMetro_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "walkingMinutesToMetro(eq)5");
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(2.0),
+
+                xpath("/flatsPage/flats/flat[1]/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/name").string("First Flat"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/x").number(1.1),
+                xpath("/flatsPage/flats/flat[1]/coordinates/y").string("123"),
+                xpath("/flatsPage/flats/flat[1]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[1]/area").string("1"),
+                xpath("/flatsPage/flats/flat[1]/numberOfRooms").string("1"),
+                xpath("/flatsPage/flats/flat[1]/height").string("10"),
+                xpath("/flatsPage/flats/flat[1]/view").string("STREET"),
+                xpath("/flatsPage/flats/flat[1]/transport").string("FEW"),
+                xpath("/flatsPage/flats/flat[1]/house/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/house/name").string("First House"),
+                xpath("/flatsPage/flats/flat[1]/house/year").string("2000"),
+                xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flatsPage/flats/flat[1]/price").string("100.01"),
+                xpath("/flatsPage/flats/flat[1]/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flatsPage/flats/flat[1]/walkingMinutesToMetro").string("5"),
+                xpath("/flatsPage/flats/flat[1]/transportMinutesToMetro").string("10"),
+
+                xpath("/flatsPage/flats/flat[2]/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/name").string("Third Flat"),
+                xpath("/flatsPage/flats/flat[2]/coordinates/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/coordinates/x").number(100.0),
+                xpath("/flatsPage/flats/flat[2]/coordinates/y").string("200"),
+                xpath("/flatsPage/flats/flat[2]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[2]/area").string(""),
+                xpath("/flatsPage/flats/flat[2]/numberOfRooms").string("3"),
+                xpath("/flatsPage/flats/flat[2]/height").string("3"),
+                xpath("/flatsPage/flats/flat[2]/view").string(""),
+                xpath("/flatsPage/flats/flat[2]/transport").string("NONE"),
+                xpath("/flatsPage/flats/flat[2]/house/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/house/name").string("Third House"),
+                xpath("/flatsPage/flats/flat[2]/house/year").string(""),
+                xpath("/flatsPage/flats/flat[2]/house/numberOfFlatsOnFloor").string(""),
+                xpath("/flatsPage/flats/flat[2]/price").string("10000.12"),
+                xpath("/flatsPage/flats/flat[2]/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flatsPage/flats/flat[2]/walkingMinutesToMetro").string("5"),
+                xpath("/flatsPage/flats/flat[2]/transportMinutesToMetro").string("10"),
+
+                xpath("/flatsPage/totalElements").string("2"),
+                xpath("/flatsPage/totalPages").string("1"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("2")
+            );
+    }
+
+    @Test
+    void getListFlatsByFilterEqualsTransportMinutesToMetro_ReturnsResponseWithStatusOk() throws Exception {
+        setupDb();
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/api/v1/flats")
+            .param("sort", "id,asc")
+            .param("page", "0")
+            .param("size", "4")
+            .param("filter", "transportMinutesToMetro(eq)10");
+
+        mockMvc
+            .perform(requestBuilder)
+            .andDo(print())
+            .andExpectAll(
+                status().isOk(),
+                content().contentType(MediaType.APPLICATION_XML),
+                xpath("/flatsPage").exists(),
+                xpath("/flatsPage/flats").exists(),
+                xpath("count(/flatsPage/flats/flat)").number(2.0),
+
+                xpath("/flatsPage/flats/flat[1]/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/name").string("First Flat"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/coordinates/x").number(1.1),
+                xpath("/flatsPage/flats/flat[1]/coordinates/y").string("123"),
+                xpath("/flatsPage/flats/flat[1]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[1]/area").string("1"),
+                xpath("/flatsPage/flats/flat[1]/numberOfRooms").string("1"),
+                xpath("/flatsPage/flats/flat[1]/height").string("10"),
+                xpath("/flatsPage/flats/flat[1]/view").string("STREET"),
+                xpath("/flatsPage/flats/flat[1]/transport").string("FEW"),
+                xpath("/flatsPage/flats/flat[1]/house/id").string("1"),
+                xpath("/flatsPage/flats/flat[1]/house/name").string("First House"),
+                xpath("/flatsPage/flats/flat[1]/house/year").string("2000"),
+                xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flatsPage/flats/flat[1]/price").string("100.01"),
+                xpath("/flatsPage/flats/flat[1]/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flatsPage/flats/flat[1]/walkingMinutesToMetro").string("5"),
+                xpath("/flatsPage/flats/flat[1]/transportMinutesToMetro").string("10"),
+
+                xpath("/flatsPage/flats/flat[2]/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/name").string("Third Flat"),
+                xpath("/flatsPage/flats/flat[2]/coordinates/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/coordinates/x").number(100.0),
+                xpath("/flatsPage/flats/flat[2]/coordinates/y").string("200"),
+                xpath("/flatsPage/flats/flat[2]/creationDate").exists(),
+                xpath("/flatsPage/flats/flat[2]/area").string(""),
+                xpath("/flatsPage/flats/flat[2]/numberOfRooms").string("3"),
+                xpath("/flatsPage/flats/flat[2]/height").string("3"),
+                xpath("/flatsPage/flats/flat[2]/view").string(""),
+                xpath("/flatsPage/flats/flat[2]/transport").string("NONE"),
+                xpath("/flatsPage/flats/flat[2]/house/id").string("3"),
+                xpath("/flatsPage/flats/flat[2]/house/name").string("Third House"),
+                xpath("/flatsPage/flats/flat[2]/house/year").string(""),
+                xpath("/flatsPage/flats/flat[2]/house/numberOfFlatsOnFloor").string(""),
+                xpath("/flatsPage/flats/flat[2]/price").string("10000.12"),
+                xpath("/flatsPage/flats/flat[2]/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flatsPage/flats/flat[2]/walkingMinutesToMetro").string("5"),
+                xpath("/flatsPage/flats/flat[2]/transportMinutesToMetro").string("10"),
+
+                xpath("/flatsPage/totalElements").string("2"),
+                xpath("/flatsPage/totalPages").string("1"),
+                xpath("/flatsPage/currentPage").string("0"),
+                xpath("/flatsPage/pageSize").string("2")
+            );
     }
 
     private void performAndCheckGetListFlatsRequestByFilterEquals(
@@ -928,6 +1108,10 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
                 xpath("/flatsPage/flats/flat[1]/house/name").string("First House"),
                 xpath("/flatsPage/flats/flat[1]/house/year").string("2000"),
                 xpath("/flatsPage/flats/flat[1]/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flatsPage/flats/flat[1]/price").string("100.01"),
+                xpath("/flatsPage/flats/flat[1]/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flatsPage/flats/flat[1]/walkingMinutesToMetro").string("5"),
+                xpath("/flatsPage/flats/flat[1]/transportMinutesToMetro").string("10"),
 
                 xpath("/flatsPage/totalElements").string("1"),
                 xpath("/flatsPage/totalPages").string("1"),
