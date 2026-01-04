@@ -6,10 +6,6 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Transport;
 import lab.soa.domain.models.View;
