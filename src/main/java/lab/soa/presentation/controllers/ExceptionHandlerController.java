@@ -87,10 +87,13 @@ public class ExceptionHandlerController {
     public ResponseEntity<ErrorMessageResponseDto> handleException(ConstraintViolationException e) {
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
         List<String> errors = new ArrayList<>();
-        violations.forEach(violation ->
-            errors.add(violation.getMessage())
-        );
+        violations.forEach(violation -> {
+            String field = violation.getPropertyPath().toString();
+            String message = violation.getMessage();
+            errors.add(field + ": " + message);
+        });
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .message("Unprocessable entity")
             .violations(errors)
             .time(LocalDateTime.now())
             .build();
