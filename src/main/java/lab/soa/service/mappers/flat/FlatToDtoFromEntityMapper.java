@@ -32,6 +32,10 @@ public class FlatToDtoFromEntityMapper {
                     flatEntity.getHouse()
                 )
             )
+            .price(flatEntity.getPrice())
+            .balconyType(flatEntity.getBalconyType())
+            .walkingMinutesToMetro(flatEntity.getWalkingMinutesToMetro())
+            .transportMinutesToMetro(flatEntity.getTransportMinutesToMetro())
             .build();
     }
 
@@ -55,6 +59,10 @@ public class FlatToDtoFromEntityMapper {
                     flatEntity.getHouse()
                 )
             )
+            .price(flatEntity.getPrice())
+            .balconyType(flatEntity.getBalconyType())
+            .walkingMinutesToMetro(flatEntity.getWalkingMinutesToMetro())
+            .transportMinutesToMetro(flatEntity.getTransportMinutesToMetro())
             .build();
     }
 }

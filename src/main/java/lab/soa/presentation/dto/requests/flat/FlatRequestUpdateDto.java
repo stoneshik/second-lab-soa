@@ -1,14 +1,18 @@
 package lab.soa.presentation.dto.requests.flat;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Transport;
 import lab.soa.domain.models.View;
 import lab.soa.presentation.dto.requests.coordinates.CoordinatesUpdateRequestDto;
@@ -60,4 +64,25 @@ public class FlatRequestUpdateDto {
     @Valid
     @NotNull
     private HouseUpdateRequestDto house;
+
+    @JacksonXmlProperty(localName = "price")
+    @NotNull
+    @Positive
+    @Digits(integer = 12, fraction = 2)
+    private BigDecimal price;
+
+    @JacksonXmlProperty(localName = "balconyType")
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private BalconyType balconyType;
+
+    @JacksonXmlProperty(localName = "walkingMinutesToMetro")
+    @NotNull
+    @Positive
+    private Integer walkingMinutesToMetro;
+
+    @JacksonXmlProperty(localName = "transportMinutesToMetro")
+    @NotNull
+    @Positive
+    private Integer transportMinutesToMetro;
 }

@@ -18,14 +18,14 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/flatAllFieldsSchema'
+              $ref: '#/components/schemas/flatSchema'
       responses:
         '200':
           description: Successfully add new flat
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/flatAllFieldsSchema'
+                $ref: '#/components/schemas/flatSchema'
         '422':
           description: Validation exception
           content:
@@ -111,6 +111,10 @@ paths:
             - house.name
             - house.year
             - house.numberOfFlatsOnFloor
+            - price
+            - balconyType
+            - walkingMinutesToMetro
+            - transportMinutesToMetro
           required: false
           schema:
             type: array
@@ -148,7 +152,7 @@ paths:
             items:
               type: string
               example: "area(interval)10_20"
-            pattern: "^([a-z]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$"
+            pattern: "^([a-zA-Z.]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$"
             default: ["area(interval)10_20"]
         - name: page
           in: query
@@ -174,7 +178,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/flatsAllFieldsSchema'
+                $ref: '#/components/schemas/flatsPage'
         '400':
           description: Invalid param(s) supplied
           content:
@@ -391,7 +395,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/flatAllFieldsSchema'
+                $ref: '#/components/schemas/flatSchema'
         '400':
           description: Invalid param supplied
           content:
@@ -501,14 +505,14 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/flatAllFieldsSchema'
+              $ref: '#/components/schemas/flatSchema'
       responses:
         '200':
           description: Successfully returns an updated flat
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/flatAllFieldsSchema'
+                $ref: '#/components/schemas/flatSchema'
         '422':
           description: Validation exception
           content:
@@ -811,7 +815,7 @@ paths:
 # Schemas of objects
 components:
   schemas:
-    flatAllFieldsSchema:
+    flatSchema:
       type: object
       xml:
         name: flat
@@ -856,21 +860,43 @@ components:
           minimum: 0
           exclusiveMinimum: true
           example: 10
-          description: Flat floor number
         view:
           $ref: '#/components/schemas/view'
         transport:
           $ref: '#/components/schemas/transport'
         house:
           $ref: '#/components/schemas/house'
+        price:
+          type: string
+          pattern: '^\d+(\.\d{2})?$'
+          example: "100.50"
+          description: Price flat (format - decimal with two decimal places)
+        balconyType:
+          $ref: '#/components/schemas/balconyType'
+        walkingMinutesToMetro:
+          type: integer
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 10
+        transportMinutesToMetro:
+          type: integer
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 5
       required:
         - name
         - coordinates
         - numberOfRooms
         - height
         - house
+        - price
+        - balconyType
+        - walkingMinutesToMetro
+        - transportMinutesToMetro
 
-    flatsAllFieldsSchema:
+    flatsPage:
       type: object
       xml:
         name: flatsPage
@@ -879,7 +905,7 @@ components:
           type: array
           nullable: false
           items:
-            $ref: '#/components/schemas/flatAllFieldsSchema'
+            $ref: '#/components/schemas/flatSchema'
           xml:
             name: flats
             wrapped: true
@@ -990,6 +1016,14 @@ components:
         - LITTLE
         - NORMAL
         - ENOUGH
+
+    balconyType:
+      type: string
+      nullable: false
+      example: WITH_BALCONY
+      enum:
+        - WITH_BALCONY
+        - WITHOUT_BALCONY
 
     error:
       type: object

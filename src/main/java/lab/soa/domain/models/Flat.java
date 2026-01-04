@@ -1,5 +1,6 @@
 package lab.soa.domain.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
@@ -19,6 +20,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -112,6 +114,35 @@ public class Flat {
         foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
     private House house;
+
+    @ToString.Include
+    @NotNull
+    @Positive
+    @Digits(integer = 12, fraction = 2)
+    @Column(
+        name = "price",
+        nullable = false,
+        precision = 14,
+        scale = 2
+    )
+    private BigDecimal price;
+
+    @ToString.Include
+    @Enumerated(EnumType.STRING)
+    @Column(name = "balcony_type", nullable = true)
+    private BalconyType balconyType;
+
+    @ToString.Include
+    @NotNull
+    @Positive
+    @Column(name = "walking_minutes_to_metro", nullable = false)
+    private Integer walkingMinutesToMetro;
+
+    @ToString.Include
+    @NotNull
+    @Positive
+    @Column(name = "transport_minutes_to_metro", nullable = false)
+    private Integer transportMinutesToMetro;
 
     @PrePersist
     protected void onCreate() {

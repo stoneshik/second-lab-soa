@@ -34,6 +34,10 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
+            <price>100.50</price>
+            <balconyType>WITH_BALCONY</balconyType>
+            <walkingMinutesToMetro>10</walkingMinutesToMetro>
+            <transportMinutesToMetro>5</transportMinutesToMetro>
         </flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -62,7 +66,11 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 xpath("/flat/house/id").string("5"),
                 xpath("/flat/house/name").string("Test House"),
                 xpath("/flat/house/year").string("2000"),
-                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flat/price").string("100.50"),
+                xpath("/flat/balconyType").string("WITH_BALCONY"),
+                xpath("/flat/walkingMinutesToMetro").string("10"),
+                xpath("/flat/transportMinutesToMetro").string("5")
             );
     }
 
@@ -71,7 +79,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         setupDb();
         String xmlRequest = """
         <?xml version="1.0" encoding="UTF-8"?>
-        <Flat>
+        <flat>
             <name>Test Flat</name>
             <coordinates>
                 <x>1.1</x>
@@ -83,11 +91,15 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             <view>STREET</view>
             <transport>FEW</transport>
             <house>
-                <name>First House</name>
+                <name>Test House</name>
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
-        </Flat>
+            <price>100.50</price>
+            <balconyType>WITH_BALCONY</balconyType>
+            <walkingMinutesToMetro>10</walkingMinutesToMetro>
+            <transportMinutesToMetro>5</transportMinutesToMetro>
+        </flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .post("/api/v1/flats")
@@ -135,7 +147,11 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 xpath("/flat/house/id").string("1"),
                 xpath("/flat/house/name").string("First House"),
                 xpath("/flat/house/year").string("2000"),
-                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flat/price").string("100.01"),
+                xpath("/flat/balconyType").string("WITHOUT_BALCONY"),
+                xpath("/flat/walkingMinutesToMetro").string("5"),
+                xpath("/flat/transportMinutesToMetro").string("10")
             );
     }
 
@@ -181,6 +197,10 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
+            <price>100.50</price>
+            <balconyType>WITH_BALCONY</balconyType>
+            <walkingMinutesToMetro>10</walkingMinutesToMetro>
+            <transportMinutesToMetro>5</transportMinutesToMetro>
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -206,7 +226,11 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 xpath("/flat/transport").string("FEW"),
                 xpath("/flat/house/name").string("Updated House"),
                 xpath("/flat/house/year").string("2000"),
-                xpath("/flat/house/numberOfFlatsOnFloor").string("9")
+                xpath("/flat/house/numberOfFlatsOnFloor").string("9"),
+                xpath("/flat/price").string("100.50"),
+                xpath("/flat/balconyType").string("WITH_BALCONY"),
+                xpath("/flat/walkingMinutesToMetro").string("10"),
+                xpath("/flat/transportMinutesToMetro").string("5")
             );
     }
 
@@ -232,6 +256,10 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
+            <price>100.50</price>
+            <balconyType>WITH_BALCONY</balconyType>
+            <walkingMinutesToMetro>10</walkingMinutesToMetro>
+            <transportMinutesToMetro>5</transportMinutesToMetro>
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -275,6 +303,10 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
                 <year>2000</year>
                 <numberOfFlatsOnFloor>9</numberOfFlatsOnFloor>
             </house>
+            <price>100.50</price>
+            <balconyType>WITH_BALCONY</balconyType>
+            <walkingMinutesToMetro>10</walkingMinutesToMetro>
+            <transportMinutesToMetro>5</transportMinutesToMetro>
         </Flat>
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders

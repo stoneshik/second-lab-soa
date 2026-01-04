@@ -1,5 +1,6 @@
 package lab.soa;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.AfterAll;
@@ -16,6 +17,7 @@ import org.testcontainers.junit.jupiter.Container;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Coordinates;
 import lab.soa.domain.models.Flat;
 import lab.soa.domain.models.House;
@@ -141,6 +143,10 @@ abstract class SpringBootApplicationTest {
             .view(View.STREET)
             .transport(Transport.FEW)
             .house(house1)
+            .price(new BigDecimal("100.01"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(5)
+            .transportMinutesToMetro(10)
             .build();
         Flat flat2 = Flat.builder()
             .name("Second Flat")
@@ -151,6 +157,10 @@ abstract class SpringBootApplicationTest {
             .view(View.BAD)
             .transport(Transport.ENOUGH)
             .house(house2)
+            .price(new BigDecimal("12345678.00"))
+            .balconyType(BalconyType.WITH_BALCONY)
+            .walkingMinutesToMetro(1000)
+            .transportMinutesToMetro(100)
             .build();
         Flat flat3 = Flat.builder()
             .name("Third Flat")
@@ -161,6 +171,10 @@ abstract class SpringBootApplicationTest {
             .view(null)
             .transport(Transport.NONE)
             .house(house3)
+            .price(new BigDecimal("10000.12"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(5)
+            .transportMinutesToMetro(10)
             .build();
         Flat flat4 = Flat.builder()
             .name("Fourth Flat")
@@ -171,6 +185,10 @@ abstract class SpringBootApplicationTest {
             .view(View.GOOD)
             .transport(null)
             .house(house4)
+            .price(new BigDecimal("0.12"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(10)
+            .transportMinutesToMetro(5)
             .build();
         entityManager.persist(flat1);
         entityManager.persist(flat2);

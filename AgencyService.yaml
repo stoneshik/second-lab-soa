@@ -16,26 +16,26 @@ paths:
           in: path
           description: >
             Search type:<br>
-            - 'cheapest' - the cheapest flat<br>
-            - 'expensive' - the most expensive flat
+            - 'CHEAPEST' - the cheapest flat<br>
+            - 'EXPENSIVE' - the most expensive flat
           required: true
           schema:
             type: string
             nullable: false
-            enum: [cheapest, expensive]
-          example: cheapest
+            enum: [CHEAPEST, EXPENSIVE]
+          example: CHEAPEST
         - name: balconyType
           in: path
           description: >
             Balcony type:<br>
-            - 'with-balcony' - flat without balcony<br>
-            - 'without-balcony' - flat with balcony
+            - 'WITH_BALCONY' - flat with balcony<br>
+            - 'WITHOUT_BALCONY' - flat without balcony
           required: true
           schema:
             type: string
             nullable: false
-            enum: [with-balcony, without-balcony]
-          example: with-balcony
+            enum: [WITH_BALCONY, WITHOUT_BALCONY]
+          example: WITH_BALCONY
       tags:
         - Agency
       responses:
@@ -44,7 +44,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: 'FlatService.yaml#/components/schemas/flatAllFieldsSchema'
+                $ref: 'FlatService.yaml#/components/schemas/flatsPage'
         '400':
           description: Invalid param(s) supplied
           content:
@@ -145,14 +145,14 @@ paths:
           in: path
           description: >
             Transport type:<br>
-            - 'walking' - time for walking<br>
-            - 'transport' - time on public/private transport
+            - 'WALKING' - time for walking<br>
+            - 'TRANSPORT' - time on public/private transport
           required: true
           schema:
             type: string
             nullable: false
-            enum: [walking, transport]
-          example: walking
+            enum: [WALKING, TRANSPORT]
+          example: WALKING
         - name: sortType
           in: path
           description: >
@@ -189,7 +189,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: 'FlatService.yaml#/components/schemas/flatsAllFieldsSchema'
+                $ref: 'FlatService.yaml#/components/schemas/flatsPage'
         '400':
           description: Invalid param(s) supplied
           content:

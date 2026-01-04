@@ -19,6 +19,10 @@ public enum FlatFilterField implements FilterField {
     HOUSE_NAME("house.name"),
     HOUSE_YEAR("house.year"),
     HOUSE_NUMBER_OF_FLATS_ON_FLOOR("house.numberOfFlatsOnFloor"),
+    PRICE("price"),
+    BALCONY_TYPE("balconyType"),
+    WALKING_MINUTES_TO_METRO("walkingMinutesToMetro"),
+    TRANSPORT_MINUTES_TO_METRO("transportMinutesToMetro"),
     ;
 
     private final String filterFieldName;

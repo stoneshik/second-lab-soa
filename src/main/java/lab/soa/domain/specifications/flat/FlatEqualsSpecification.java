@@ -1,5 +1,6 @@
 package lab.soa.domain.specifications.flat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -121,6 +122,38 @@ public class FlatEqualsSpecification extends FlatSpecification {
     public Specification<Flat> createSpecificationFromEntity(
         FlatFieldName fieldName,
         Float fieldValue
+    ) {
+        if (fieldValue == null) return null;
+        FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();
+        checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(
+            flatNestedEntityFieldName
+        );
+        return (root, query, criteriaBuilder) ->
+            criteriaBuilder.equal(
+                root.get(
+                    flatNestedEntityFieldName.getFieldName()
+                ).get(fieldName.getFieldName()),
+                fieldValue
+            );
+    }
+
+    public Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
+        BigDecimal fieldValue
+    ) {
+        if (fieldValue == null) return null;
+        return (root, query, criteriaBuilder) ->
+            criteriaBuilder.equal(
+                root.get(
+                    fieldName.getFieldName()
+                ),
+                fieldValue
+            );
+    }
+
+    public Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
+        BigDecimal fieldValue
     ) {
         if (fieldValue == null) return null;
         FlatFieldName flatNestedEntityFieldName = fieldName.getFlatNestedEntityFieldName();

@@ -4,9 +4,11 @@ import java.util.Map;
 
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.FlatFilterField;
+import lab.soa.utils.checkers.value.BalconyTypeChecker;
 import lab.soa.utils.checkers.value.FloatValueChecker;
 import lab.soa.utils.checkers.value.IntegerValueChecker;
 import lab.soa.utils.checkers.value.LocalDatetimeValueChecker;
+import lab.soa.utils.checkers.value.PriceChecker;
 import lab.soa.utils.checkers.value.StringValueChecker;
 import lab.soa.utils.checkers.value.TransportValueChecker;
 import lab.soa.utils.checkers.value.ValueChecker;
@@ -28,7 +30,11 @@ public class FlatFilterCheckerFactory {
         Map.entry(FlatFilterField.HOUSE_ID, new IntegerValueChecker()),
         Map.entry(FlatFilterField.HOUSE_NAME, new StringValueChecker()),
         Map.entry(FlatFilterField.HOUSE_YEAR, new IntegerValueChecker()),
-        Map.entry(FlatFilterField.HOUSE_NUMBER_OF_FLATS_ON_FLOOR, new IntegerValueChecker())
+        Map.entry(FlatFilterField.HOUSE_NUMBER_OF_FLATS_ON_FLOOR, new IntegerValueChecker()),
+        Map.entry(FlatFilterField.PRICE, new PriceChecker()),
+        Map.entry(FlatFilterField.BALCONY_TYPE, new BalconyTypeChecker()),
+        Map.entry(FlatFilterField.WALKING_MINUTES_TO_METRO, new IntegerValueChecker()),
+        Map.entry(FlatFilterField.TRANSPORT_MINUTES_TO_METRO, new IntegerValueChecker())
     );
 
     public ValueChecker create(FlatFilterField filterField) {

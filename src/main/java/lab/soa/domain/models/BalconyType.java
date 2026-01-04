@@ -1,10 +1,8 @@
 package lab.soa.domain.models;
 
-public enum View {
-    STREET,
-    YARD,
-    BAD,
-    GOOD,
+public enum BalconyType {
+    WITH_BALCONY,
+    WITHOUT_BALCONY,
     ;
 
     public static boolean isValidValue(String value) {
@@ -12,7 +10,7 @@ public enum View {
             return false;
         }
         try {
-            View.valueOf(value);
+            BalconyType.valueOf(value);
             return true;
         } catch (IllegalArgumentException e) {
             return false;

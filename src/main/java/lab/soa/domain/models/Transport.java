@@ -5,7 +5,8 @@ public enum Transport {
     NONE,
     LITTLE,
     NORMAL,
-    ENOUGH;
+    ENOUGH,
+    ;
 
     public static boolean isValidValue(String value) {
         if (value == null) {

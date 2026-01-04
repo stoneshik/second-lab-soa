@@ -19,26 +19,30 @@ public class FlatToEntityFromDtoUpdateRequest {
 
     @Transactional
     public Flat toEntityFromDto(
-        FlatRequestUpdateDto requestUpdateDto,
+        FlatRequestUpdateDto flatDto,
         Flat foundFlat
     ) {
         Coordinates updatedCoordinates = coordinatesService.update(
             foundFlat.getCoordinates(),
-            requestUpdateDto.getCoordinates()
+            flatDto.getCoordinates()
         );
         House updatedHouse = houseService.update(
             foundFlat.getHouse(),
-            requestUpdateDto.getHouse()
+            flatDto.getHouse()
         );
         return foundFlat.toBuilder()
-            .name(requestUpdateDto.getName())
+            .name(flatDto.getName())
             .coordinates(updatedCoordinates)
-            .area(requestUpdateDto.getArea())
-            .numberOfRooms(requestUpdateDto.getNumberOfRooms())
-            .height(requestUpdateDto.getHeight())
-            .view(requestUpdateDto.getView())
-            .transport(requestUpdateDto.getTransport())
+            .area(flatDto.getArea())
+            .numberOfRooms(flatDto.getNumberOfRooms())
+            .height(flatDto.getHeight())
+            .view(flatDto.getView())
+            .transport(flatDto.getTransport())
             .house(updatedHouse)
+            .price(flatDto.getPrice())
+            .balconyType(flatDto.getBalconyType())
+            .walkingMinutesToMetro(flatDto.getWalkingMinutesToMetro())
+            .transportMinutesToMetro(flatDto.getTransportMinutesToMetro())
             .build();
     }
 }

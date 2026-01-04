@@ -1,5 +1,6 @@
 package lab.soa.domain.specifications.flat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -47,6 +48,16 @@ public abstract class FlatSpecification {
     public abstract Specification<Flat> createSpecificationFromEntity(
         FlatFieldName fieldName,
         Float fieldValue
+    );
+
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
+        BigDecimal fieldValue
+    );
+
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
+        BigDecimal fieldValue
     );
 
     public abstract Specification<Flat> createSpecification(

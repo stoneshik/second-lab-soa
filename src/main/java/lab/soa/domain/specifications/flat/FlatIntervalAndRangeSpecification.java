@@ -1,5 +1,7 @@
 package lab.soa.domain.specifications.flat;
 
+import java.math.BigDecimal;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import lab.soa.domain.models.Flat;
@@ -41,6 +43,18 @@ public abstract class FlatIntervalAndRangeSpecification {
         FlatFieldName fieldName,
         Float fieldMinValue,
         Float fieldMaxValue
+    );
+
+    public abstract Specification<Flat> createSpecification(
+        FlatFieldName fieldName,
+        BigDecimal fieldMinValue,
+        BigDecimal fieldMaxValue
+    );
+
+    public abstract Specification<Flat> createSpecificationFromEntity(
+        FlatFieldName fieldName,
+        BigDecimal fieldMinValue,
+        BigDecimal fieldMaxValue
     );
 
     protected void checkFlatNestedEntityFieldNameAndThrowExceptionIfNotCorrect(

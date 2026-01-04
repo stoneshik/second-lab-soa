@@ -36,6 +36,10 @@ public class FlatToEntityFromDtoCreateRequest {
             .view(flatDto.getView())
             .transport(flatDto.getTransport())
             .house(house)
+            .price(flatDto.getPrice())
+            .balconyType(flatDto.getBalconyType())
+            .walkingMinutesToMetro(flatDto.getWalkingMinutesToMetro())
+            .transportMinutesToMetro(flatDto.getTransportMinutesToMetro())
             .build();
     }
 

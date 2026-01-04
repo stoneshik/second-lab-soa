@@ -25,6 +25,11 @@ public enum FlatFieldName implements FieldName {
         TypeSpecification.NESTED_ENTITY,
         HOUSE
     ),
+
+    PRICE("price", TypeSpecification.ROOT_ENTITY, null),
+    BALCONY_TYPE("balconyType", TypeSpecification.ROOT_ENTITY, null),
+    WALKING_MINUTES_TO_METRO("walkingMinutesToMetro", TypeSpecification.ROOT_ENTITY, null),
+    TRANSPORT_MINUTES_TO_METRO("transportMinutesToMetro", TypeSpecification.ROOT_ENTITY, null),
     ;
 
     private final String fieldName;

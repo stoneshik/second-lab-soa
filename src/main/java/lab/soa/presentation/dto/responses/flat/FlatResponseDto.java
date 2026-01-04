@@ -1,9 +1,11 @@
 package lab.soa.presentation.dto.responses.flat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Transport;
 import lab.soa.domain.models.View;
 import lab.soa.presentation.dto.responses.coordinates.CoordinatesResponseDto;
@@ -47,4 +49,16 @@ public class FlatResponseDto {
 
     @JacksonXmlProperty(localName = "house")
     private HouseResponseDto house;
+
+    @JacksonXmlProperty(localName = "price")
+    private BigDecimal price;
+
+    @JacksonXmlProperty(localName = "balconyType")
+    private BalconyType balconyType;
+
+    @JacksonXmlProperty(localName = "walkingMinutesToMetro")
+    private Integer walkingMinutesToMetro;
+
+    @JacksonXmlProperty(localName = "transportMinutesToMetro")
+    private Integer transportMinutesToMetro;
 }

@@ -1,5 +1,6 @@
 package lab.soa.service.services.flat.factories;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.service.filters.flat.FlatFilterField;
 import lab.soa.service.filters.flat.FlatFilterOperation;
 import lab.soa.service.filters.flat.FlatFilterParam;
+import lab.soa.utils.parsers.BalconyTypeParserReturnString;
 import lab.soa.utils.parsers.FloatParser;
 import lab.soa.utils.parsers.IntegerParser;
 import lab.soa.utils.parsers.LocalDatetimeParser;
 import lab.soa.utils.parsers.LongParser;
+import lab.soa.utils.parsers.PriceParser;
 import lab.soa.utils.parsers.StringParser;
 import lab.soa.utils.parsers.TransportValueParserReturnString;
 import lab.soa.utils.parsers.ViewValueParserReturnString;
@@ -38,7 +41,11 @@ public class FlatSpecificationServiceFactory {
         Map.entry(FlatFilterField.HOUSE_ID, FlatFieldName.HOUSE_ID),
         Map.entry(FlatFilterField.HOUSE_NAME, FlatFieldName.HOUSE_NAME),
         Map.entry(FlatFilterField.HOUSE_YEAR, FlatFieldName.HOUSE_YEAR),
-        Map.entry(FlatFilterField.HOUSE_NUMBER_OF_FLATS_ON_FLOOR, FlatFieldName.HOUSE_NUMBER_OF_FLATS_ON_FLOOR)
+        Map.entry(FlatFilterField.HOUSE_NUMBER_OF_FLATS_ON_FLOOR, FlatFieldName.HOUSE_NUMBER_OF_FLATS_ON_FLOOR),
+        Map.entry(FlatFilterField.PRICE, FlatFieldName.PRICE),
+        Map.entry(FlatFilterField.BALCONY_TYPE, FlatFieldName.BALCONY_TYPE),
+        Map.entry(FlatFilterField.WALKING_MINUTES_TO_METRO, FlatFieldName.WALKING_MINUTES_TO_METRO),
+        Map.entry(FlatFilterField.TRANSPORT_MINUTES_TO_METRO, FlatFieldName.TRANSPORT_MINUTES_TO_METRO)
     );
 
     public Specification<Flat> create(
@@ -111,7 +118,9 @@ public class FlatSpecificationServiceFactory {
                 NUMBER_OF_ROOMS,
                 HEIGHT,
                 HOUSE_YEAR,
-                HOUSE_NUMBER_OF_FLATS_ON_FLOOR -> {
+                HOUSE_NUMBER_OF_FLATS_ON_FLOOR,
+                WALKING_MINUTES_TO_METRO,
+                TRANSPORT_MINUTES_TO_METRO -> {
                 IntegerParser parser = new IntegerParser();
                 Integer fieldValue = parser.parse(fieldValueString);
                 if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
@@ -145,6 +154,22 @@ public class FlatSpecificationServiceFactory {
             }
             case TRANSPORT -> {
                 TransportValueParserReturnString parser = new TransportValueParserReturnString();
+                String fieldValue = parser.parse(fieldValueString);
+                if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
+                    return flatSpecification.createSpecification(flatFieldName, fieldValue);
+                }
+                return flatSpecification.createSpecificationFromEntity(flatFieldName, fieldValue);
+            }
+            case PRICE -> {
+                PriceParser parser = new PriceParser();
+                BigDecimal fieldValue = parser.parse(fieldValueString);
+                if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
+                    return flatSpecification.createSpecification(flatFieldName, fieldValue);
+                }
+                return flatSpecification.createSpecificationFromEntity(flatFieldName, fieldValue);
+            }
+            case BALCONY_TYPE -> {
+                BalconyTypeParserReturnString parser = new BalconyTypeParserReturnString();
                 String fieldValue = parser.parse(fieldValueString);
                 if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
                     return flatSpecification.createSpecification(flatFieldName, fieldValue);
@@ -194,7 +219,9 @@ public class FlatSpecificationServiceFactory {
                 NUMBER_OF_ROOMS,
                 HEIGHT,
                 HOUSE_YEAR,
-                HOUSE_NUMBER_OF_FLATS_ON_FLOOR -> {
+                HOUSE_NUMBER_OF_FLATS_ON_FLOOR,
+                WALKING_MINUTES_TO_METRO,
+                TRANSPORT_MINUTES_TO_METRO -> {
                 IntegerParser parser = new IntegerParser();
                 Integer minFieldValue = parser.parse(minValueString);
                 Integer maxFieldValue = parser.parse(maxValueString);
@@ -215,6 +242,23 @@ public class FlatSpecificationServiceFactory {
                 FloatParser parser = new FloatParser();
                 Float minFieldValue = parser.parse(minValueString);
                 Float maxFieldValue = parser.parse(maxValueString);
+                if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
+                    return flatIntervalAndRangeSpecification.createSpecification(
+                        flatFieldName,
+                        minFieldValue,
+                        maxFieldValue
+                    );
+                }
+                return flatIntervalAndRangeSpecification.createSpecificationFromEntity(
+                    flatFieldName,
+                    minFieldValue,
+                    maxFieldValue
+                );
+            }
+            case PRICE -> {
+                PriceParser parser = new PriceParser();
+                BigDecimal minFieldValue = parser.parse(minValueString);
+                BigDecimal maxFieldValue = parser.parse(maxValueString);
                 if (typeSpecification.equals(TypeSpecification.ROOT_ENTITY)) {
                     return flatIntervalAndRangeSpecification.createSpecification(
                         flatFieldName,
