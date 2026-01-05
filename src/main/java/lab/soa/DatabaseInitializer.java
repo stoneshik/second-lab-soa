@@ -1,10 +1,13 @@
 package lab.soa;
 
+import java.math.BigDecimal;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Coordinates;
 import lab.soa.domain.models.Flat;
 import lab.soa.domain.models.House;
@@ -85,6 +88,10 @@ public class DatabaseInitializer implements CommandLineRunner {
             .view(View.STREET)
             .transport(Transport.FEW)
             .house(house1)
+            .price(new BigDecimal("100.01"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(5)
+            .transportMinutesToMetro(10)
             .build();
         Flat flat2 = Flat.builder()
             .name("Second Flat")
@@ -95,16 +102,24 @@ public class DatabaseInitializer implements CommandLineRunner {
             .view(View.BAD)
             .transport(Transport.ENOUGH)
             .house(house2)
+            .price(new BigDecimal("12345678.00"))
+            .balconyType(BalconyType.WITH_BALCONY)
+            .walkingMinutesToMetro(1000)
+            .transportMinutesToMetro(100)
             .build();
         Flat flat3 = Flat.builder()
             .name("Third Flat")
             .coordinates(coordinates3)
-            .area(3)
+            .area(null)
             .numberOfRooms(3)
             .height(3)
-            .view(View.YARD)
+            .view(null)
             .transport(Transport.NONE)
             .house(house3)
+            .price(new BigDecimal("10000.12"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(5)
+            .transportMinutesToMetro(10)
             .build();
         Flat flat4 = Flat.builder()
             .name("Fourth Flat")
@@ -113,8 +128,12 @@ public class DatabaseInitializer implements CommandLineRunner {
             .numberOfRooms(4)
             .height(3)
             .view(View.GOOD)
-            .transport(Transport.NORMAL)
+            .transport(null)
             .house(house4)
+            .price(new BigDecimal("0.12"))
+            .balconyType(BalconyType.WITHOUT_BALCONY)
+            .walkingMinutesToMetro(10)
+            .transportMinutesToMetro(5)
             .build();
         flatRepository.save(flat1);
         flatRepository.save(flat2);
