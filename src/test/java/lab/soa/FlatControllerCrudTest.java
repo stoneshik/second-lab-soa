@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 class FlatControllerCrudTest extends SpringBootApplicationTest {
     @Test
-    void createMusicBand_ReturnsResponseWithStatusOk() throws Exception {
+    void createFlat_ReturnsResponseWithStatusOk() throws Exception {
         setupDb();
         String xmlRequest = """
         <?xml version="1.0" encoding="UTF-8"?>

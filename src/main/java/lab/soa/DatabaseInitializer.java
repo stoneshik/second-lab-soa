@@ -19,7 +19,7 @@ import lab.soa.domain.repositories.flat.FlatRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@Profile("dev")
+@Profile({"dev", "proxy-test"})
 @RequiredArgsConstructor
 public class DatabaseInitializer implements CommandLineRunner {
     private final CoordinatesRepository coordinatesRepository;

@@ -173,7 +173,7 @@ paths:
             type: integer
             default: 0
             minimum: 0
-        - name: pageSize
+        - name: size
           in: query
           required: false
           description: Specifies page size for pagination. By default page size will be 10

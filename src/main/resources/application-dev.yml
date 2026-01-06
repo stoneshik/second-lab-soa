@@ -21,3 +21,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: "ant_path_matcher"
+
+proxy:
+  target-service:
+    url: "${SOA_TARGET_SERVICE_URL}"
+

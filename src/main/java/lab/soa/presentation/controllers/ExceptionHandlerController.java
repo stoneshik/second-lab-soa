@@ -126,4 +126,16 @@ public class ExceptionHandlerController {
             .contentType(MediaType.APPLICATION_XML)
             .body(dto);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessageResponseDto> handleException(Exception e) {
+        ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
+            .message("Unexpected error")
+            .time(LocalDateTime.now())
+            .build();
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .contentType(MediaType.APPLICATION_XML)
+            .body(dto);
+    }
 }

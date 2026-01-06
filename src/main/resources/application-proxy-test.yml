@@ -5,20 +5,19 @@ spring:
   main:
     banner-mode: "off"
   datasource:
-    own:
-      username: ${CONTAINER.USERNAME}
-      password: ${CONTAINER.PASSWORD}
-      url: ${CONTAINER.URL}
+    url: "jdbc:postgresql://localhost:5432/soa_proxy_test"
+    username: "${SOA_SERVICE_BD_USERNAME}"
+    password: "${SOA_SERVICE_BD_PASSWORD}"
+    driver-class-name: "org.postgresql.Driver"
   jpa:
     generate-ddl: true
-    hibernate.ddl-auto: "update"
+    hibernate.ddl-auto: "create"
     database-platform: "org.hibernate.dialect.PostgreSQLDialect"
     properties:
       javax:
         persistence:
           validation:
             mode: "auto"
-    show-sql: true
   mvc:
     pathmatch:
       matching-strategy: "ant_path_matcher"
