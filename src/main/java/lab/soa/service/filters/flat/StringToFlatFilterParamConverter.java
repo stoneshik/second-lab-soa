@@ -11,12 +11,11 @@ import lab.soa.service.filters.flat.factories.FlatFilterCheckerFactory;
 import lab.soa.utils.checkers.value.ValueChecker;
 
 @Component
-public class StringToFlatFilterParamConverter implements Converter<String, FlatFilterParam> {
+public class StringToFlatFilterParamConverter {
     private static final Pattern FILTER_PATTERN =
         Pattern.compile("^([a-zA-Z.]+)\\((eq|ne|gt|lt|gte|lte|interval|range)\\)(.+)$");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-    @Override
     public FlatFilterParam convert(String source) {
         Matcher matcher = FILTER_PATTERN.matcher(source);
         if (!matcher.matches()) {

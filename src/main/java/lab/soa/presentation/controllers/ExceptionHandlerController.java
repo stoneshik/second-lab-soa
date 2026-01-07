@@ -31,7 +31,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -43,7 +43,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.UNPROCESSABLE_ENTITY)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -55,7 +55,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -67,7 +67,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -79,7 +79,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -99,7 +99,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.UNPROCESSABLE_ENTITY)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -111,7 +111,7 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
@@ -123,19 +123,19 @@ public class ExceptionHandlerController {
             .build();
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessageResponseDto> handleException(Exception e) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
-            .message("Unexpected error")
+            .message(e.getMessage())
             .time(LocalDateTime.now())
             .build();
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType(MediaType.parseMediaType("application/xml;charset=UTF-8"))
             .body(dto);
     }
 }

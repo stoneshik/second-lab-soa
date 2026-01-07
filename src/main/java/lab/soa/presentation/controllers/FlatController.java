@@ -1,6 +1,7 @@
 package lab.soa.presentation.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import lab.soa.presentation.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.presentation.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.presentation.dto.responses.flat.WrapperListFlatsResponseDto;
 import lab.soa.service.filters.flat.FlatFilterParam;
+import lab.soa.service.filters.flat.StringToFlatFilterParamConverter;
 import lab.soa.service.services.flat.FlatService;
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FlatController {
     private final FlatService flatService;
+    private final StringToFlatFilterParamConverter stringToFlatFilterParamConverter;
 
     @PostMapping(
         consumes = MediaType.APPLICATION_XML_VALUE,
@@ -46,9 +49,13 @@ public class FlatController {
         produces = MediaType.APPLICATION_XML_VALUE
     )
     public ResponseEntity<WrapperListFlatsResponseDto> getAll(
-        @RequestParam(name = "filter", required = false) List<FlatFilterParam> filterParams,
+        @RequestParam(name = "filter", required = false) List<String> filterStrings,
         @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
+        List<FlatFilterParam> filterParams = filterStrings != null ?
+            filterStrings.stream()
+                .map(filterString -> stringToFlatFilterParamConverter.convert(filterString))
+                .collect(Collectors.toList()) : null;
         return ResponseEntity.ok(
             flatService.findAll(
                 filterParams,

@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -42,7 +41,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .post("/api/v1/flats")
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType("application/xml;charset=UTF-8")
             .content(xmlRequest);
 
         mockMvc
@@ -50,7 +49,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flat").exists(),
                 xpath("/flat/id").string("5"),
                 xpath("/flat/name").string("Test Flat"),
@@ -103,7 +102,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .post("/api/v1/flats")
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType("application/xml;charset=UTF-8")
             .content(xmlRequest);
 
         mockMvc
@@ -111,7 +110,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isUnprocessableEntity(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -132,7 +131,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flat/id").string("1"),
                 xpath("/flat/name").string("First Flat"),
                 xpath("/flat/coordinates/id").string("1"),
@@ -167,7 +166,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isNotFound(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -205,7 +204,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .put("/api/v1/flats/{id}", id)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType("application/xml;charset=UTF-8")
             .content(xmlRequest);
 
         mockMvc
@@ -213,7 +212,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flat/id").string("1"),
                 xpath("/flat/name").string("Updated Flat"),
                 xpath("/flat/coordinates/x").number(100.1),
@@ -264,7 +263,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .put("/api/v1/flats/{id}", id)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType("application/xml;charset=UTF-8")
             .content(xmlRequest);
 
         mockMvc
@@ -272,7 +271,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isUnprocessableEntity(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -311,7 +310,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
         """;
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .put("/api/v1/flats/{id}", id)
-            .contentType(MediaType.APPLICATION_XML)
+            .contentType("application/xml;charset=UTF-8")
             .content(xmlRequest);
 
         mockMvc
@@ -319,7 +318,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isNotFound(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -436,7 +435,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isBadRequest(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -457,7 +456,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isNotFound(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -476,9 +475,9 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/response").exists(),
-                xpath("/response").string("18")
+                xpath("/response/value").string("18")
             );
     }
 
@@ -493,9 +492,9 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/response").exists(),
-                xpath("/response").string("0")
+                xpath("/response/value").string("0")
             );
     }
 
@@ -510,7 +509,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/groupsWrapper").exists(),
                 xpath("/groupsWrapper/groups").exists(),
                 xpath("count(/groupsWrapper/groups/group)").number(3.0),
@@ -540,7 +539,7 @@ class FlatControllerCrudTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/groupsWrapper").exists(),
                 xpath("/groupsWrapper/groups").exists(),
                 xpath("count(/groupsWrapper/groups/group)").number(0.0)

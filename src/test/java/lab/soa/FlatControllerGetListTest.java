@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,7 +25,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(0.0),
@@ -48,7 +47,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(4.0),
@@ -138,7 +137,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(2.0),
@@ -197,7 +196,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(1.0),
@@ -240,7 +239,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(3.0),
@@ -315,7 +314,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(3.0),
@@ -390,7 +389,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(0.0),
@@ -416,7 +415,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(4.0),
@@ -507,7 +506,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(1.0),
@@ -550,7 +549,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(0.0),
@@ -577,7 +576,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(2.0),
@@ -637,7 +636,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(2.0),
@@ -696,7 +695,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isBadRequest(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/error").exists(),
                 xpath("/error/message").exists(),
                 xpath("/error/violations").exists(),
@@ -915,7 +914,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(1.0),
@@ -961,7 +960,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(2.0),
@@ -1028,7 +1027,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(2.0),
@@ -1088,7 +1087,7 @@ class FlatControllerGetListTest extends SpringBootApplicationTest {
             .andDo(print())
             .andExpectAll(
                 status().isOk(),
-                content().contentType(MediaType.APPLICATION_XML),
+                content().contentType("application/xml;charset=UTF-8"),
                 xpath("/flatsPage").exists(),
                 xpath("/flatsPage/flats").exists(),
                 xpath("count(/flatsPage/flats/flat)").number(1.0),
