@@ -3,7 +3,6 @@ package lab.soa.service.filters.flat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
