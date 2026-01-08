@@ -19,6 +19,14 @@
 Url подключения к БД<br>
 `jdbc:postgresql://localhost:5432/studs`
 
+Генерация ключа:
+```
+keytool -genkeypair -alias springboot -keyalg RSA -keysize 4096 \
+  -validity 3650 -keystore keystore.p12 \
+  -storetype PKCS12 -storepass changeit -keypass changeit \
+  -dname "CN=localhost, OU=Development, O=Company, L=City, ST=State, C=RU"
+```
+
 Сбор jar файла с пропуском тестов<br>
 `mvn package -DskipTests`
 
