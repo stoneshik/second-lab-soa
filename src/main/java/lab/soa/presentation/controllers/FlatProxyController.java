@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -40,16 +42,23 @@ public class FlatProxyController {
         );
         HttpHeaders headers = copyHeaders(originalRequest);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-            targetUrl,
-            HttpMethod.GET,
-            entity,
-            String.class
-        );
-        return ResponseEntity
-            .status(response.getStatusCode())
-            .headers(response.getHeaders())
-            .body(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                targetUrl,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+            return ResponseEntity
+                .status(response.getStatusCode())
+                .headers(response.getHeaders())
+                .body(response.getBody());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            return ResponseEntity
+                .status(e.getStatusCode())
+                .headers(e.getResponseHeaders())
+                .body(e.getResponseBodyAsString());
+        }
     }
 
     @GetMapping("/get-ordered-by-time-to-metro/{transportType}/{sortType}")
@@ -78,16 +87,23 @@ public class FlatProxyController {
         String targetUrl = builder.toUriString();
         HttpHeaders headers = copyHeaders(originalRequest);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-            targetUrl,
-            HttpMethod.GET,
-            entity,
-            String.class
-        );
-        return ResponseEntity
-            .status(response.getStatusCode())
-            .headers(response.getHeaders())
-            .body(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                targetUrl,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+            return ResponseEntity
+                .status(response.getStatusCode())
+                .headers(response.getHeaders())
+                .body(response.getBody());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            return ResponseEntity
+                .status(e.getStatusCode())
+                .headers(e.getResponseHeaders())
+                .body(e.getResponseBodyAsString());
+        }
     }
 
     private HttpHeaders copyHeaders(HttpServletRequest request) {
