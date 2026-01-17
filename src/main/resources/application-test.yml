@@ -6,6 +6,10 @@ server:
     key-store-password: "changeit"
     key-alias: "springboot"
 
+    trust-store: "classpath:wildfly-truststore.p12"
+    trust-store-password: "changeit"
+    trust-store-type: "PKCS12"
+
 spring:
   main:
     banner-mode: "off"
