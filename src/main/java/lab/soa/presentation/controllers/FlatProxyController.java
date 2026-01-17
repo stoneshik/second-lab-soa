@@ -22,7 +22,9 @@ import lab.soa.domain.models.PriceType;
 import lab.soa.domain.models.SortType;
 import lab.soa.domain.models.TransportType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/flats")
 @RequiredArgsConstructor
@@ -35,11 +37,23 @@ public class FlatProxyController {
         @PathVariable BalconyType balconyType,
         HttpServletRequest originalRequest
     ) {
+        // Логирование входящего запроса
+        String protocol = originalRequest.getProtocol();
+        String scheme = originalRequest.getScheme();
+        boolean isSecure = originalRequest.isSecure();
+        log.info(
+            "Incoming request: {} {}{}",
+            originalRequest.getMethod(),
+            originalRequest.getRequestURI(),
+            originalRequest.getQueryString() != null ? "?" + originalRequest.getQueryString() : ""
+        );
+        log.info("Request protocol: {}, scheme: {}, secure: {}", protocol, scheme, isSecure);
         String targetUrl = String.format(
             "/api/v1/flats/find-with-balcony/%s/%s",
             priceType.name(),
             balconyType.name()
         );
+        log.info("Proxying request to target service: {}", targetUrl);
         HttpHeaders headers = copyHeaders(originalRequest);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         try {
@@ -49,11 +63,13 @@ public class FlatProxyController {
                 entity,
                 String.class
             );
+            log.info("Response received from target service: {}", response.getStatusCode());
             return ResponseEntity
                 .status(response.getStatusCode())
                 .headers(response.getHeaders())
                 .body(response.getBody());
         } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error("Error from target service: {} - {}", e.getStatusCode(), e.getStatusText());
             return ResponseEntity
                 .status(e.getStatusCode())
                 .headers(e.getResponseHeaders())
@@ -69,6 +85,13 @@ public class FlatProxyController {
         @RequestParam(defaultValue = "10") int size,
         HttpServletRequest originalRequest
     ) {
+        // Логирование входящего запроса
+        log.info(
+            "Incoming HTTPS request: {} {} (Secure: {})",
+            originalRequest.getMethod(),
+            originalRequest.getRequestURI(),
+            originalRequest.isSecure()
+        );
         String baseUrl = String.format(
             "/api/v1/flats/get-ordered-by-time-to-metro/%s/%s",
             transportType.name(),
@@ -85,6 +108,7 @@ public class FlatProxyController {
             }
         });
         String targetUrl = builder.toUriString();
+        log.info("Proxying to target URL: {}", targetUrl);
         HttpHeaders headers = copyHeaders(originalRequest);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         try {
@@ -94,11 +118,13 @@ public class FlatProxyController {
                 entity,
                 String.class
             );
+            log.info("Target service responded with: {}", response.getStatusCode());
             return ResponseEntity
                 .status(response.getStatusCode())
                 .headers(response.getHeaders())
                 .body(response.getBody());
         } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error("Target service error: {}", e.getMessage());
             return ResponseEntity
                 .status(e.getStatusCode())
                 .headers(e.getResponseHeaders())
@@ -109,11 +135,14 @@ public class FlatProxyController {
     private HttpHeaders copyHeaders(HttpServletRequest request) {
         HttpHeaders headers = new HttpHeaders();
         Enumeration<String> headerNames = request.getHeaderNames();
+        log.debug("Copying headers from incoming request:");
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             Enumeration<String> headerValues = request.getHeaders(headerName);
             while (headerValues.hasMoreElements()) {
-                headers.add(headerName, headerValues.nextElement());
+                String headerValue = headerValues.nextElement();
+                headers.add(headerName, headerValue);
+                log.debug("  {}: {}", headerName, headerValue);
             }
         }
         return headers;
