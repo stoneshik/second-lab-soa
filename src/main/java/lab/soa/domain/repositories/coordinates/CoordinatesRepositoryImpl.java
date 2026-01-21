@@ -10,6 +10,7 @@ public class CoordinatesRepositoryImpl implements CoordinatesRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
     public Coordinates create(Float x, Long y) {
         Coordinates coordinates = Coordinates.builder()
             .x(x)
@@ -20,6 +21,14 @@ public class CoordinatesRepositoryImpl implements CoordinatesRepository {
         return coordinates;
     }
 
+    @Override
+    public Coordinates save(Coordinates coordinates) {
+        entityManager.persist(coordinates);
+        entityManager.flush();
+        return coordinates;
+    }
+
+    @Override
     public Coordinates update(Coordinates coordinates) {
         return entityManager.merge(coordinates);
     }

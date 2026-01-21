@@ -205,15 +205,14 @@ public class FlatService {
                 SortDirection.ASC.getValue() :
                 SortDirection.DESC.getValue()
         ));
-        Specification<Flat> specification = Specification.unrestricted();
         int offset = page * size;
         List<Flat> flats = flatRepository.findAll(
-            specification,
+            Specification.unrestricted(),
             offset,
             size,
             sortParams
         );
-        long totalElements = flatRepository.count(specification);
+        long totalElements = flatRepository.count();
         int totalPages = (int) Math.ceil((double) totalElements / size);
         List<FlatResponseDto> flatDtos = flats.stream()
             .map(FlatToDtoFromEntityMapper::toDtoFromEntity)

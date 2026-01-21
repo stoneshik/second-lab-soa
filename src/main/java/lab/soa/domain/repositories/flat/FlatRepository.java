@@ -9,6 +9,7 @@ import lab.soa.presentation.params.sort.SortParam;
 
 public interface FlatRepository {
     Flat create(Flat flat);
+    Flat save(Flat flat);
     Flat update(Flat flat);
     void delete(Flat flat);
     Optional<Flat> findById(Long id);
@@ -19,6 +20,7 @@ public interface FlatRepository {
         List<SortParam> sortParams
     );
     long count(Specification<Flat> spec);
+    long count();
     int deleteFirstByHouseCriteria(
         String houseName,
         Integer houseYear,

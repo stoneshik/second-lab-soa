@@ -4,5 +4,6 @@ import lab.soa.domain.models.Coordinates;
 
 public interface CoordinatesRepository {
     Coordinates create(Float x, Long y);
+    Coordinates save(Coordinates coordinates);
     Coordinates update(Coordinates coordinates);
 }

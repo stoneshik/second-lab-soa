@@ -35,6 +35,13 @@ public class FlatRepositoryImpl implements FlatRepository {
     }
 
     @Override
+    public Flat save(Flat flat) {
+        entityManager.persist(flat);
+        entityManager.flush();
+        return flat;
+    }
+
+    @Override
     public Flat update(Flat flat) {
         return entityManager.merge(flat);
     }
@@ -96,6 +103,15 @@ public class FlatRepositoryImpl implements FlatRepository {
                 query.where(predicate);
             }
         }
+        return entityManager.createQuery(query).getSingleResult();
+    }
+
+    @Override
+    public long count() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<Flat> root = query.from(Flat.class);
+        query.select(cb.count(root));
         return entityManager.createQuery(query).getSingleResult();
     }
 

@@ -10,6 +10,7 @@ public class HouseRepositoryImpl implements HouseRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
     public House create(String name, Integer year, Integer numberOfFlatsOnFloor) {
         House house = House.builder()
             .name(name)
@@ -21,6 +22,14 @@ public class HouseRepositoryImpl implements HouseRepository {
         return house;
     }
 
+    @Override
+    public House save(House house) {
+        entityManager.persist(house);
+        entityManager.flush();
+        return house;
+    }
+
+    @Override
     public House update(House house) {
         return entityManager.merge(house);
     }
