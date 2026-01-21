@@ -165,10 +165,16 @@ public class FlatService {
         Specification<Flat> specification = (root, query, cb) -> {
             Predicate balconyPredicate = cb.equal(root.get("balconyType"), balconyType);
             query.orderBy(priceType == PriceType.CHEAPEST ?
-                cb.asc(root.get("price")) : cb.desc(root.get("price")));
+                cb.asc(root.get("price")) :
+                cb.desc(root.get("price")));
             return balconyPredicate;
         };
-        List<Flat> flats = flatRepository.findAll(specification, 0, 1, null);
+        List<Flat> flats = flatRepository.findAll(
+            specification,
+            0,
+            1,
+            null
+        );
         if (flats.isEmpty()) {
             throw new ObjectNotFoundException("Flat with specified criteria not found");
         }
@@ -195,11 +201,18 @@ public class FlatService {
             "walkingMinutesToMetro" : "transportMinutesToMetro";
         List<SortParam> sortParams = List.of(new SortParam(
             timeField,
-            sortType == SortType.ASC ? SortDirection.ASC.getValue() : SortDirection.DESC.getValue()
+            sortType == SortType.ASC ?
+                SortDirection.ASC.getValue() :
+                SortDirection.DESC.getValue()
         ));
         Specification<Flat> specification = Specification.unrestricted();
         int offset = page * size;
-        List<Flat> flats = flatRepository.findAll(specification, offset, size, sortParams);
+        List<Flat> flats = flatRepository.findAll(
+            specification,
+            offset,
+            size,
+            sortParams
+        );
         long totalElements = flatRepository.count(specification);
         int totalPages = (int) Math.ceil((double) totalElements / size);
         List<FlatResponseDto> flatDtos = flats.stream()
