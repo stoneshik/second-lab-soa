@@ -10,11 +10,13 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lab.soa.domain.models.Coordinates;
 import lab.soa.domain.models.Flat;
 import lab.soa.domain.models.House;
 import lab.soa.domain.specifications.Specification;
@@ -50,7 +52,7 @@ public class FlatRepositoryImpl implements FlatRepository {
 
     @Override
     public List<Flat> findAll(
-        Specification<Flat> specification,
+        Specification<Flat> spec,
         int offset,
         int limit,
         List<SortParam> sortParams
@@ -60,8 +62,10 @@ public class FlatRepositoryImpl implements FlatRepository {
         Root<Flat> root = query.from(Flat.class);
         root.fetch("coordinates", JoinType.INNER);
         root.fetch("house", JoinType.INNER);
-        if (specification != null) {
-            Predicate predicate = specification.toPredicate(root, query, cb);
+        Join<Flat, Coordinates> coordinatesJoin = root.join("coordinates", JoinType.INNER);
+        Join<Flat, House> houseJoin = root.join("house", JoinType.INNER);
+        if (spec != null) {
+            Predicate predicate = spec.toPredicate(root, query, cb);
             if (predicate != null) {
                 query.where(predicate);
             }
@@ -69,22 +73,14 @@ public class FlatRepositoryImpl implements FlatRepository {
         if (sortParams != null && !sortParams.isEmpty()) {
             List<Order> orders = new ArrayList<>();
             for (SortParam sortParam : sortParams) {
-                if (sortParam.isAscending()) {
-                    orders.add(cb.asc(root.get(sortParam.getField())));
-                } else {
-                    orders.add(cb.desc(root.get(sortParam.getField())));
-                }
+                addSortOrder(root, coordinatesJoin, houseJoin, orders, sortParam, cb);
             }
             query.orderBy(orders);
         }
-        query.select(root).distinct(true);
+        query.select(root);
         TypedQuery<Flat> typedQuery = entityManager.createQuery(query);
-        if (offset >= 0) {
-            typedQuery.setFirstResult(offset);
-        }
-        if (limit > 0) {
-            typedQuery.setMaxResults(limit);
-        }
+        typedQuery.setFirstResult(offset);
+        typedQuery.setMaxResults(limit);
         return typedQuery.getResultList();
     }
 
@@ -166,5 +162,68 @@ public class FlatRepositoryImpl implements FlatRepository {
             ));
         }
         return projections;
+    }
+
+    private void addSortOrder(
+        Root<Flat> root,
+        Join<Flat, Coordinates> coordinatesJoin,
+        Join<Flat, House> houseJoin,
+        List<Order> orders,
+        SortParam sortParam,
+        CriteriaBuilder criteriaBuilder
+    ) {
+        String field = sortParam.getField();
+        boolean ascending = sortParam.isAscending();
+        if (field.startsWith("coordinates.")) {
+            String coordinatesField = field.substring("coordinates.".length());
+            addOrderFromPath(
+                orders,
+                coordinatesJoin,
+                coordinatesField,
+                ascending,
+                criteriaBuilder
+            );
+        } else if (field.startsWith("house.")) {
+            String houseField = field.substring("house.".length());
+            addOrderFromPath(
+                orders,
+                houseJoin,
+                houseField,
+                ascending,
+                criteriaBuilder
+            );
+        } else if (field.contains(".")) {
+            addOrderFromPath(orders, root, field, ascending, criteriaBuilder);
+        } else {
+            if (ascending) {
+                orders.add(
+                    criteriaBuilder.asc(root.get(field))
+                );
+            } else {
+                orders.add(
+                    criteriaBuilder.desc(root.get(field))
+                );
+            }
+        }
+    }
+
+    private void addOrderFromPath(
+        List<Order> orders,
+        From<?, ?> from,
+        String fieldPath,
+        boolean ascending,
+        CriteriaBuilder cb
+    ) {
+        String[] pathParts = fieldPath.split("\\.");
+        From<?, ?> currentFrom = from;
+        for (int i = 0; i < pathParts.length - 1; i++) {
+            currentFrom = currentFrom.join(pathParts[i], JoinType.INNER);
+        }
+        String finalField = pathParts[pathParts.length - 1];
+        if (ascending) {
+            orders.add(cb.asc(currentFrom.get(finalField)));
+        } else {
+            orders.add(cb.desc(currentFrom.get(finalField)));
+        }
     }
 }

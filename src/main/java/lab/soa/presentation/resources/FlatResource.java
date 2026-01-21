@@ -52,7 +52,7 @@ public class FlatResource {
     public Response getAll(
         @QueryParam("filter") List<String> filterStrings,
         @QueryParam("page") @DefaultValue("0") int page,
-        @QueryParam("size") @DefaultValue("10") long size,
+        @QueryParam("size") @DefaultValue("10") int size,
         @QueryParam("sort") List<String> sortStrings
     ) {
         if (page < 0) {

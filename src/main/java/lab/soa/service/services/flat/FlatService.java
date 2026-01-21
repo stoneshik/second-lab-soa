@@ -53,13 +53,13 @@ public class FlatService {
     public WrapperListFlatsResponseDto findAll(
         List<FlatFilterParam> filterParams,
         int page,
-        long size,
+        int size,
         List<SortParam> sortParams
     ) {
         FlatGetAllMethodSpecificationFactory factory = new FlatGetAllMethodSpecificationFactory();
         Specification<Flat> specification = factory.create(filterParams);
         int offset = page * (int) size;
-        List<Flat> flats = flatRepository.findAll(specification, offset, (int) size, sortParams);
+        List<Flat> flats = flatRepository.findAll(specification, offset, size, sortParams);
         long totalElements = flatRepository.count(specification);
         int totalPages = (int) Math.ceil((double) totalElements / size);
         List<FlatResponseDto> flatResponseDtos = new ArrayList<>();
