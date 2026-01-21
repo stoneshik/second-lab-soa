@@ -5,13 +5,13 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lab.soa.domain.models.Coordinates;
-import lab.soa.domain.repositories.CoordinatesRepository;
+import lab.soa.domain.repositories.coordinates.CoordinatesRepositoryImpl;
 import lab.soa.presentation.dto.requests.coordinates.CoordinatesUpdateRequestDto;
 
 @ApplicationScoped
 public class CoordinatesService {
     @Inject
-    private CoordinatesRepository coordinatesRepository;
+    private CoordinatesRepositoryImpl coordinatesRepository;
 
     @Transactional
     public Coordinates create(Float x, Long y) {

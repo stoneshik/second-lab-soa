@@ -21,10 +21,11 @@ public enum SortDirection {
         if (value == null) {
             throw new IncorrectParamException("Incorrect sort param: " + value);
         }
-        try {
-            return SortDirection.valueOf(value);
-        } catch (IllegalArgumentException e) {
-            throw new IncorrectParamException("Incorrect sort param: " + value);
+        for (SortDirection sortDirection: SortDirection.values()) {
+            if (sortDirection.getValue().equals(value)) {
+                return sortDirection;
+            }
         }
+        throw new IncorrectParamException("Incorrect sort param: " + value);
     }
 }

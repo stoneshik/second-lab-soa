@@ -6,9 +6,9 @@
     <persistence-unit name="flatServicePU" transaction-type="JTA">
         <description>Flat Service Persistence Unit</description>
         <jta-data-source>java:/jdbc/SoaServiceDS</jta-data-source>
-        <class>lab.soa.domain.Flat</class>
-        <class>lab.soa.domain.Coordinates</class>
-        <class>lab.soa.domain.House</class>
+        <class>lab.soa.domain.models.Flat</class>
+        <class>lab.soa.domain.models.Coordinates</class>
+        <class>lab.soa.domain.models.House</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

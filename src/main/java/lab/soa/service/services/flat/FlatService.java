@@ -3,14 +3,12 @@ package lab.soa.service.services.flat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lab.soa.domain.models.Flat;
-import lab.soa.domain.repositories.flat.FlatRepository;
+import lab.soa.domain.repositories.flat.FlatRepositoryImpl;
 import lab.soa.domain.repositories.flat.HeightGroupProjection;
 import lab.soa.domain.specifications.Specification;
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
@@ -33,7 +31,7 @@ import lab.soa.service.services.flat.factories.FlatGetAllMethodSpecificationFact
 @ApplicationScoped
 public class FlatService {
     @Inject
-    private FlatRepository flatRepository;
+    private FlatRepositoryImpl flatRepository;
 
     @Inject
     private FlatTxService flatTxService;
@@ -58,23 +56,21 @@ public class FlatService {
         long size,
         List<SortParam> sortParams
     ) {
-        FlatGetAllMethodSpecificationFactory flatGetAllMethodSpecificationFactory =
-            new FlatGetAllMethodSpecificationFactory();
-        Specification<Flat> specification = flatGetAllMethodSpecificationFactory.create(filterParams);
-        Page<Flat> page = flatRepository.findAll(specification, pageable);
+        FlatGetAllMethodSpecificationFactory factory = new FlatGetAllMethodSpecificationFactory();
+        Specification<Flat> specification = factory.create(filterParams);
+        int offset = page * (int) size;
+        List<Flat> flats = flatRepository.findAll(specification, offset, (int) size, sortParams);
+        long totalElements = flatRepository.count(specification);
+        int totalPages = (int) Math.ceil((double) totalElements / size);
         List<FlatResponseDto> flatResponseDtos = new ArrayList<>();
-
-        page.forEach(musicBand ->
-            flatResponseDtos.add(
-                FlatToDtoFromEntityMapper.toDtoFromEntity(musicBand)
-            )
-        );
-
+        for (Flat flat : flats) {
+            flatResponseDtos.add(FlatToDtoFromEntityMapper.toDtoFromEntity(flat));
+        }
         return WrapperListFlatsResponseDto.builder()
-            .totalElements(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .currentPage(page.getNumber())
-            .pageSize(page.getNumberOfElements())
+            .totalElements(totalElements)
+            .totalPages(totalPages)
+            .currentPage(page)
+            .pageSize(flatResponseDtos.size())
             .flats(flatResponseDtos)
             .build();
     }
