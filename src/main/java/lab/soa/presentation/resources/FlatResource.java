@@ -17,6 +17,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lab.soa.domain.models.BalconyType;
+import lab.soa.domain.models.PriceType;
+import lab.soa.domain.models.SortType;
+import lab.soa.domain.models.TransportType;
 import lab.soa.infrastructure.exceptions.IncorrectParamException;
 import lab.soa.presentation.dto.requests.flat.FlatRequestCreateDto;
 import lab.soa.presentation.dto.requests.flat.FlatRequestUpdateDto;
@@ -130,5 +134,35 @@ public class FlatResource {
     public Response getGroupsByHeight() {
         FlatGroupsByHeightResponseDto dto = flatService.getGroupsByHeight();
         return Response.ok(dto).build();
+    }
+
+    @GET
+    @Path("/find-with-balcony/{priceType}/{balconyType}")
+    public Response findWithBalcony(
+        @PathParam("priceType") PriceType priceType,
+        @PathParam("balconyType") BalconyType balconyType
+    ) {
+        FlatResponseByIdDto flatDto = flatService.findWithBalcony(
+            priceType,
+            balconyType
+        );
+        return Response.ok(flatDto).build();
+    }
+
+    @GET
+    @Path("/get-ordered-by-time-to-metro/{transportType}/{sortType}")
+    public Response getOrderedByTimeToMetro(
+        @PathParam("transportType") TransportType transportType,
+        @PathParam("sortType") SortType sortType,
+        @QueryParam("page") @DefaultValue("0") Integer page,
+        @QueryParam("size") @DefaultValue("10") Integer size
+    ) {
+        WrapperListFlatsResponseDto result = flatService.getFlatsOrderedByTimeToMetro(
+            transportType,
+            sortType,
+            page,
+            size
+        );
+        return Response.ok(result).build();
     }
 }

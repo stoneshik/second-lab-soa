@@ -2,12 +2,18 @@ package lab.soa.service.services.flat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Flat;
+import lab.soa.domain.models.PriceType;
+import lab.soa.domain.models.SortType;
+import lab.soa.domain.models.TransportType;
 import lab.soa.domain.repositories.flat.FlatRepositoryImpl;
 import lab.soa.domain.repositories.flat.HeightGroupProjection;
 import lab.soa.domain.specifications.Specification;
@@ -21,6 +27,7 @@ import lab.soa.presentation.dto.responses.flat.FlatGroupsByHeightResponseDto;
 import lab.soa.presentation.dto.responses.flat.FlatResponseByIdDto;
 import lab.soa.presentation.dto.responses.flat.FlatResponseDto;
 import lab.soa.presentation.dto.responses.flat.WrapperListFlatsResponseDto;
+import lab.soa.presentation.params.sort.SortDirection;
 import lab.soa.presentation.params.sort.SortParam;
 import lab.soa.service.filters.flat.FlatFilterParam;
 import lab.soa.service.mappers.flat.FlatToDtoFromEntityMapper;
@@ -148,5 +155,62 @@ public class FlatService {
     @Transactional
     public Flat findByIdReturnsEntity(Long id) {
         return flatTxService.findByIdReturnsEntity(id);
+    }
+
+    @Transactional
+    public FlatResponseByIdDto findWithBalcony(PriceType priceType, BalconyType balconyType) {
+        if (priceType == null || balconyType == null) {
+            throw new IncorrectParamException("PriceType and BalconyType must be specified");
+        }
+        Specification<Flat> specification = (root, query, cb) -> {
+            Predicate balconyPredicate = cb.equal(root.get("balconyType"), balconyType);
+            query.orderBy(priceType == PriceType.CHEAPEST ?
+                cb.asc(root.get("price")) : cb.desc(root.get("price")));
+            return balconyPredicate;
+        };
+        List<Flat> flats = flatRepository.findAll(specification, 0, 1, null);
+        if (flats.isEmpty()) {
+            throw new ObjectNotFoundException("Flat with specified criteria not found");
+        }
+        return FlatToDtoFromEntityMapper.toDtoByIdFromEntity(flats.get(0));
+    }
+
+    @Transactional
+    public WrapperListFlatsResponseDto getFlatsOrderedByTimeToMetro(
+        TransportType transportType,
+        SortType sortType,
+        int page,
+        int size
+    ) {
+        if (transportType == null || sortType == null) {
+            throw new IncorrectParamException("TransportType and SortType must be specified");
+        }
+        if (page < 0) {
+            throw new IncorrectParamException("Page must be >= 0");
+        }
+        if (size < 1) {
+            throw new IncorrectParamException("Size must be >= 1");
+        }
+        String timeField = transportType == TransportType.WALKING ?
+            "walkingMinutesToMetro" : "transportMinutesToMetro";
+        List<SortParam> sortParams = List.of(new SortParam(
+            timeField,
+            sortType == SortType.ASC ? SortDirection.ASC.getValue() : SortDirection.DESC.getValue()
+        ));
+        Specification<Flat> specification = Specification.unrestricted();
+        int offset = page * size;
+        List<Flat> flats = flatRepository.findAll(specification, offset, size, sortParams);
+        long totalElements = flatRepository.count(specification);
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+        List<FlatResponseDto> flatDtos = flats.stream()
+            .map(FlatToDtoFromEntityMapper::toDtoFromEntity)
+            .collect(Collectors.toList());
+        return WrapperListFlatsResponseDto.builder()
+            .totalElements(totalElements)
+            .totalPages(totalPages)
+            .currentPage(page)
+            .pageSize(flatDtos.size())
+            .flats(flatDtos)
+            .build();
     }
 }
