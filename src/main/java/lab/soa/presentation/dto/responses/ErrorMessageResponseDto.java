@@ -1,6 +1,5 @@
 package lab.soa.presentation.dto.responses;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +29,5 @@ public class ErrorMessageResponseDto {
     private List<String> violations = new ArrayList<>();
 
     @XmlElement(name = "time")
-    private LocalDateTime time;
+    private String time;
 }

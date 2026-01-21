@@ -129,7 +129,7 @@ public class Flat {
 
     @ToString.Include
     @Enumerated(EnumType.STRING)
-    @Column(name = "balcony_type", nullable = true)
+    @Column(name = "balcony_type", nullable = false)
     private BalconyType balconyType;
 
     @ToString.Include

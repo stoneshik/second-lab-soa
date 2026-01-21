@@ -15,7 +15,7 @@ public class ObjectNotFoundExceptionMapper implements ExceptionMapper<ObjectNotF
     public Response toResponse(ObjectNotFoundException exception) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message(exception.getMessage())
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(Response.Status.NOT_FOUND)
             .entity(dto)

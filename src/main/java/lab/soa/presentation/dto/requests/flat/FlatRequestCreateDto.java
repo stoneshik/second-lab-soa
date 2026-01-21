@@ -13,9 +13,11 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lab.soa.domain.models.BalconyType;
 import lab.soa.domain.models.Transport;
 import lab.soa.domain.models.View;
+import lab.soa.infrastructure.xml.adapters.IntegerXmlAdapter;
 import lab.soa.presentation.dto.requests.coordinates.CoordinatesCreateRequestDto;
 import lab.soa.presentation.dto.requests.house.HouseCreateRequestDto;
 import lombok.AllArgsConstructor;
@@ -41,6 +43,7 @@ public class FlatRequestCreateDto {
     private CoordinatesCreateRequestDto coordinates;
 
     @XmlElement(name = "area")
+    @XmlJavaTypeAdapter(IntegerXmlAdapter.class)
     @Positive
     private Integer area;
 

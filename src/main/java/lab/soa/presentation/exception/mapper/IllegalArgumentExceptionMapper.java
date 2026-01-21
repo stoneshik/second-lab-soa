@@ -14,7 +14,7 @@ public class IllegalArgumentExceptionMapper implements ExceptionMapper<IllegalAr
     public Response toResponse(IllegalArgumentException exception) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message("Invalid argument")
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(Response.Status.BAD_REQUEST)
             .entity(dto)

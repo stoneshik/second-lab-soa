@@ -14,7 +14,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
     public Response toResponse(Exception exception) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message("Internal server error")
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
             .entity(dto)

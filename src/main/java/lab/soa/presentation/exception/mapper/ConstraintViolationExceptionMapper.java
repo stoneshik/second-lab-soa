@@ -27,7 +27,7 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message("Unprocessable entity")
             .violations(errors)
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(422)
             .entity(dto)

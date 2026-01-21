@@ -15,7 +15,7 @@ public class IncorrectDtoInRequestExceptionMapper implements ExceptionMapper<Inc
     public Response toResponse(IncorrectDtoInRequestException exception) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message(exception.getMessage())
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(422)
             .entity(dto)

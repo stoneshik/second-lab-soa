@@ -15,7 +15,7 @@ public class IncorrectParamExceptionMapper implements ExceptionMapper<IncorrectP
     public Response toResponse(IncorrectParamException exception) {
         ErrorMessageResponseDto dto = ErrorMessageResponseDto.builder()
             .message(exception.getMessage())
-            .time(LocalDateTime.now())
+            .time(LocalDateTime.now().toString())
             .build();
         return Response.status(Response.Status.BAD_REQUEST)
             .entity(dto)

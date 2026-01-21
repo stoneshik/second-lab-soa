@@ -1,7 +1,6 @@
 package lab.soa.presentation.dto.responses.flat;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -31,7 +30,7 @@ public class FlatResponseByIdDto {
     private CoordinatesResponseDto coordinates;
 
     @XmlElement(name = "creationDate")
-    private LocalDateTime creationDate;
+    private String creationDate;
 
     @XmlElement(name = "area")
     private Integer area;
