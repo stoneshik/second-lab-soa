@@ -2,7 +2,16 @@
 
 ## Лабораторная работа № 2
 
-### Вызываемый сервис, написанный на JAX-RS
+### Основной вызываемый сервис, написанный на JAX-RS
+
+Подключение к серверу:<br>
+`ssh s33xxxx@se.ifmo.ru -p 2222`
+
+Проброс порта для helios:<br>
+`ssh -L 8080:localhost:33xxxx s33xxxx@se.ifmo.ru -p 2222`
+
+Url подключения к БД<br>
+`jdbc:postgresql://localhost:5432/studs`
 
 Wildfly располагаем в корневую директорию проекта
 
@@ -53,3 +62,7 @@ keytool -exportcert -alias wildfly -keystore wildfly.p12 -storetype PKCS12 -stor
 ```
 keytool -importcert -alias wildfly -file wildfly.crt -keystore wildfly-truststore.p12 -storetype PKCS12 -storepass changeit -noprompt
 ```
+
+Ссылка на фронтенд - https://github.com/stoneshik/second-lab-soa-frontend
+
+Ссылка на второй сервис реализованный на Spring Boot - https://github.com/stoneshik/second-lab-soa-second
