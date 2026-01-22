@@ -451,8 +451,8 @@
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
-        <socket-binding name="https" port="${jboss.https.port:33511}"/>
         <socket-binding name="http" port="${jboss.http.port:33512}"/>
+        <socket-binding name="https" port="${jboss.https.port:33511}"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:33513}"/>
         <socket-binding name="txn-recovery-environment" port="33514"/>
         <socket-binding name="txn-status-manager" port="33515"/>

@@ -3,8 +3,12 @@ package lab.soa.presentation.resources;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
@@ -15,6 +19,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lab.soa.domain.models.BalconyType;
@@ -37,6 +42,11 @@ import lab.soa.service.services.flat.FlatService;
 @Stateless
 @Path("/flats")
 public class FlatResource {
+    private static final Logger logger = LoggerFactory.getLogger(FlatResource.class);
+
+    @Context
+    private HttpServletRequest request;
+
     @Inject
     private FlatService flatService;
 
@@ -142,6 +152,7 @@ public class FlatResource {
         @PathParam("priceType") PriceType priceType,
         @PathParam("balconyType") BalconyType balconyType
     ) {
+        logRequest();
         FlatResponseByIdDto flatDto = flatService.findWithBalcony(
             priceType,
             balconyType
@@ -157,6 +168,7 @@ public class FlatResource {
         @QueryParam("page") @DefaultValue("0") Integer page,
         @QueryParam("size") @DefaultValue("10") Integer size
     ) {
+        logRequest();
         WrapperListFlatsResponseDto result = flatService.getFlatsOrderedByTimeToMetro(
             transportType,
             sortType,
@@ -164,5 +176,21 @@ public class FlatResource {
             size
         );
         return Response.ok(result).build();
+    }
+
+    private void logRequest() {
+        String scheme = request.getScheme();
+        String protocol = request.getProtocol();
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
+        boolean isSecure = request.isSecure();
+        logger.info(
+            "Request: scheme={}, protocol={}, method={}, uri={}, isSecure={}",
+            scheme,
+            protocol,
+            method,
+            uri,
+            isSecure
+        );
     }
 }
