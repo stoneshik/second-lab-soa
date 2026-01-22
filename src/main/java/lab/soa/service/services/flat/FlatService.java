@@ -108,7 +108,10 @@ public class FlatService {
     }
 
     @Transactional
-    public FlatResponseByIdDto update(Long id, @Valid FlatRequestUpdateDto updateDto) {
+    public FlatResponseByIdDto update(
+        Long id,
+        @Valid FlatRequestUpdateDto updateDto
+    ) {
         Flat foundFlat = flatTxService.findByIdReturnsEntity(id);
         foundFlat = flatToEntityFromDtoUpdateRequest.toEntityFromDtoAndUpdateNestedEntities(
             updateDto,

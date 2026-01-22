@@ -54,25 +54,27 @@ public class FlatRepositoryImpl implements FlatRepository {
 
     @Override
     public Optional<Flat> findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Flat.class, id));
+        return Optional.ofNullable(
+            entityManager.find(Flat.class, id)
+        );
     }
 
     @Override
     public List<Flat> findAll(
-        Specification<Flat> spec,
+        Specification<Flat> specification,
         int offset,
         int limit,
         List<SortParam> sortParams
     ) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Flat> query = cb.createQuery(Flat.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Flat> query = criteriaBuilder.createQuery(Flat.class);
         Root<Flat> root = query.from(Flat.class);
         root.fetch("coordinates", JoinType.INNER);
         root.fetch("house", JoinType.INNER);
         Join<Flat, Coordinates> coordinatesJoin = root.join("coordinates", JoinType.INNER);
         Join<Flat, House> houseJoin = root.join("house", JoinType.INNER);
-        if (spec != null) {
-            Predicate predicate = spec.toPredicate(root, query, cb);
+        if (specification != null) {
+            Predicate predicate = specification.toPredicate(root, query, criteriaBuilder);
             if (predicate != null) {
                 query.where(predicate);
             }
@@ -80,7 +82,7 @@ public class FlatRepositoryImpl implements FlatRepository {
         if (sortParams != null && !sortParams.isEmpty()) {
             List<Order> orders = new ArrayList<>();
             for (SortParam sortParam : sortParams) {
-                addSortOrder(root, coordinatesJoin, houseJoin, orders, sortParam, cb);
+                addSortOrder(root, coordinatesJoin, houseJoin, orders, sortParam, criteriaBuilder);
             }
             query.orderBy(orders);
         }
@@ -108,10 +110,10 @@ public class FlatRepositoryImpl implements FlatRepository {
 
     @Override
     public long count() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
         Root<Flat> root = query.from(Flat.class);
-        query.select(cb.count(root));
+        query.select(criteriaBuilder.count(root));
         return entityManager.createQuery(query).getSingleResult();
     }
 
@@ -121,24 +123,49 @@ public class FlatRepositoryImpl implements FlatRepository {
         Integer houseYear,
         Integer numberOfFlatsOnFloor
     ) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Flat> selectQuery = cb.createQuery(Flat.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Flat> selectQuery = criteriaBuilder.createQuery(Flat.class);
         Root<Flat> root = selectQuery.from(Flat.class);
         Join<Flat, House> houseJoin = root.join("house", JoinType.INNER);
         List<Predicate> predicates = new ArrayList<>();
         if (houseName != null) {
-            predicates.add(cb.equal(cb.lower(houseJoin.get("name")), houseName));
+            predicates.add(
+                criteriaBuilder.equal(
+                    criteriaBuilder.lower(
+                        houseJoin.get("name")
+                    ),
+                    houseName
+                )
+            );
         }
         if (houseYear != null) {
-            predicates.add(cb.equal(houseJoin.get("year"), houseYear));
+            predicates.add(
+                criteriaBuilder.equal(
+                    houseJoin.get("year"),
+                    houseYear
+                )
+            );
         }
         if (numberOfFlatsOnFloor != null) {
-            predicates.add(cb.equal(houseJoin.get("numberOfFlatsOnFloor"), numberOfFlatsOnFloor));
+            predicates.add(
+                criteriaBuilder.equal(
+                    houseJoin.get("numberOfFlatsOnFloor"),
+                    numberOfFlatsOnFloor
+                )
+            );
         }
         if (!predicates.isEmpty()) {
-            selectQuery.where(cb.and(predicates.toArray(new Predicate[0])));
+            selectQuery.where(
+                criteriaBuilder.and(
+                    predicates.toArray(new Predicate[0])
+                )
+            );
         }
-        selectQuery.orderBy(cb.asc(root.get("id")));
+        selectQuery.orderBy(
+            criteriaBuilder.asc(
+                root.get("id")
+            )
+        );
         TypedQuery<Flat> findQuery = entityManager.createQuery(selectQuery);
         findQuery.setMaxResults(1);
         Flat flatToDelete = findQuery.getResultStream().findFirst().orElse(null);
@@ -152,10 +179,14 @@ public class FlatRepositoryImpl implements FlatRepository {
 
     @Override
     public Long sumAllHeights() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
         Root<Flat> root = query.from(Flat.class);
-        query.select(cb.sum(root.get("height").as(Long.class)));
+        query.select(
+            criteriaBuilder.sum(
+                root.get("height").as(Long.class)
+            )
+        );
         Long result = entityManager.createQuery(query).getSingleResult();
         return result != null ? result : 0L;
     }
@@ -228,7 +259,7 @@ public class FlatRepositoryImpl implements FlatRepository {
         From<?, ?> from,
         String fieldPath,
         boolean ascending,
-        CriteriaBuilder cb
+        CriteriaBuilder criteriaBuilder
     ) {
         String[] pathParts = fieldPath.split("\\.");
         From<?, ?> currentFrom = from;
@@ -237,9 +268,13 @@ public class FlatRepositoryImpl implements FlatRepository {
         }
         String finalField = pathParts[pathParts.length - 1];
         if (ascending) {
-            orders.add(cb.asc(currentFrom.get(finalField)));
+            orders.add(
+                criteriaBuilder.asc(currentFrom.get(finalField))
+            );
         } else {
-            orders.add(cb.desc(currentFrom.get(finalField)));
+            orders.add(
+                criteriaBuilder.desc(currentFrom.get(finalField))
+            );
         }
     }
 }

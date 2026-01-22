@@ -19,7 +19,7 @@ public interface FlatRepository {
         int limit,
         List<SortParam> sortParams
     );
-    long count(Specification<Flat> spec);
+    long count(Specification<Flat> specification);
     long count();
     int deleteFirstByHouseCriteria(
         String houseName,

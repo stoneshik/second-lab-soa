@@ -20,7 +20,10 @@ public class HouseService {
     }
 
     @Transactional
-    public House update(House foundHouse, @Valid HouseUpdateRequestDto updateRequestDto) {
+    public House update(
+        House foundHouse,
+        @Valid HouseUpdateRequestDto updateRequestDto
+    ) {
         House updatedHouse = foundHouse.toBuilder()
             .name(updateRequestDto.getName())
             .year(updateRequestDto.getYear())

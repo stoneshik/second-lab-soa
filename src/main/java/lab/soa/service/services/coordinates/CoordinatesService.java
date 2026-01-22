@@ -20,7 +20,10 @@ public class CoordinatesService {
     }
 
     @Transactional
-    public Coordinates update(Coordinates coordinates, @Valid CoordinatesUpdateRequestDto updateRequestDto) {
+    public Coordinates update(
+        Coordinates coordinates,
+        @Valid CoordinatesUpdateRequestDto updateRequestDto
+    ) {
         Coordinates updatedCoordinates = coordinates.toBuilder()
             .x(updateRequestDto.getX())
             .y(updateRequestDto.getY())
